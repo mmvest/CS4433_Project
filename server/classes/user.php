@@ -21,12 +21,7 @@
         // Create User
         public function createUser()
         {
-            $sqlQuery = "INSERT INTO ". $this->db_table ."
-                        SET
-                        username = :username,
-                        salt = :salt,
-                        password = :password
-                        created = :created";
+            $sqlQuery = "INSERT INTO ". $this->db_table ." SET username = :username, salt = :salt, password = :password, created = :created";
 
             $stmt = $this->conn->prepare($sqlQuery);
 
