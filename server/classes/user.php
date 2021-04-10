@@ -22,7 +22,6 @@
         // Create User
         public function createUser()
         {
-            echo 'preparing\n';
             $sqlQuery = 'INSERT INTO'. $this->db_table .'
                 SET username = :username, 
                     salt = :salt, 
@@ -31,30 +30,35 @@
 
             $stmt = $this->conn->prepare($sqlQuery);
 
-            echo 'sanitizing\n';
             // strip characters to prevent SQLI
             $this->username = htmlspecialchars(strip_tags($this->username));
             $this->password = htmlspecialchars(strip_tags($this->password));
             $this->created = htmlspecialchars(strip_tags($this->created));
             
-            echo 'salting\n';
             // Set salt - generate random 64 character long salt
             $this->salt = bin2hex(random_bytes(32));
-            echo 'salt '. $this->salt .' and length is ' . strlen($this->salt);
 
             //Prepend salt to password and hash password
-            echo '\password '. $this->password;
             $this->password = $this->salt . $this->password;
-            echo '\after salt password '. $this->password;
             $this->password = hash('sha256', $this->password);
-            echo '\after hash '. $this->password;
-            echo '\created '. $this->created;
-            echo '\binding\n';
+
             //bind data
-            $stmt->bindParam(":username", $this->username);
-            $stmt->bindParam(":salt", $this->salt);
-            $stmt->bindParam(":password", $this->password);
-            $stmt->bindParam(":created", $this->created);
+            if(!$stmt->bindParam(":username", $this->username))
+            {
+                echo 'username binding failed';
+            }
+            if($stmt->bindParam(":salt", $this->salt))
+            {
+                echo 'salt binding failed';
+            }
+            if($stmt->bindParam(":password", $this->password))
+            {
+                echo 'pass binding failed';
+            }
+            if($stmt->bindParam(":created", $this->created))
+            {
+                echo 'created binding failed';
+            }
 
             echo 'executing\n';
             if($stmt->execute())
