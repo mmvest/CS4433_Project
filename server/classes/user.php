@@ -21,15 +21,22 @@
         // Create User
         public function createUser()
         {
-            $sqlQuery = "INSERT INTO ". $this->db_table ." SET username = :username, salt = :salt, password = :password, created = :created";
+            echo 'preparing\n';
+            $sqlQuery = 'INSERT INTO'. $this->db_table .'
+                SET username = :username, 
+                    salt = :salt, 
+                    password = :password, 
+                    created = :created';
 
             $stmt = $this->conn->prepare($sqlQuery);
 
+            echo 'sanitizing\n';
             // strip characters to prevent SQLI
             $this->username = htmlspecialchars(strip_tags($this->username));
             $this->password = htmlspecialchars(strip_tags($this->password));
             $this->created = htmlspecialchars(strip_tags($this->created));
             
+            echo 'salting\n';
             // Set salt - generate random 64 character long salt
             $this->salt = bin2hex(random_bytes(32));
 
@@ -37,12 +44,14 @@
             $this->password = $this->salt . $this->password;
             $this->password = hash('sha256', $this->password);
 
+            echo 'binding';
             //bind data
             $stmt->bindpParam(":username", $this->username);
             $stmt->bindpParam(":salt", $this->salt);
             $stmt->bindpParam(":password", $this->password);
             $stmt->bindpParam(":created", $this->created);
 
+            echo 'executing';
             if($stmt->execute())
             {
                 return true;
