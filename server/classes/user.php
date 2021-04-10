@@ -28,8 +28,8 @@
                     password = :password, 
                     created = :created';
 
-            //for debugging
-            $this->conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
+            //uncomment this for debugging
+            //$this->conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 
             $stmt = $this->conn->prepare($sqlQuery);
 
@@ -46,29 +46,17 @@
             $this->password = hash('sha256', $this->password);
 
             //bind data
-            if(!$stmt->bindParam(":username", $this->username))
-            {
-                echo 'username binding failed';
-            }
-            if(!$stmt->bindParam(":salt", $this->salt))
-            {
-                echo 'salt binding failed';
-            }
-            if(!$stmt->bindParam(":password", $this->password))
-            {
-                echo 'pass binding failed';
-            }
-            if(!$stmt->bindParam(":created", $this->created))
-            {
-                echo 'created binding failed';
-            }
+            $stmt->bindParam(":username", $this->username);
+            $stmt->bindParam(":salt", $this->salt);
+            $stmt->bindParam(":password", $this->password);
+            $stmt->bindParam(":created", $this->created);
 
-            echo 'executing\n';
             if($stmt->execute())
             {
                 return true;
             }
-            print_r($stmt->errorInfo());
+            //uncomment this for debugging
+            //print_r($stmt->errorInfo());
             return false;
         }
 
