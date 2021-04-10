@@ -28,6 +28,9 @@
                     password = :password, 
                     created = :created';
 
+            //for debugging
+            $this->conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
+
             $stmt = $this->conn->prepare($sqlQuery);
 
             // strip characters to prevent SQLI
@@ -47,15 +50,15 @@
             {
                 echo 'username binding failed';
             }
-            if($stmt->bindParam(":salt", $this->salt))
+            if(!$stmt->bindParam(":salt", $this->salt))
             {
                 echo 'salt binding failed';
             }
-            if($stmt->bindParam(":password", $this->password))
+            if(!$stmt->bindParam(":password", $this->password))
             {
                 echo 'pass binding failed';
             }
-            if($stmt->bindParam(":created", $this->created))
+            if(!$stmt->bindParam(":created", $this->created))
             {
                 echo 'created binding failed';
             }
@@ -65,6 +68,7 @@
             {
                 return true;
             }
+            print_r($stmt->errorInfo());
             return false;
         }
 
