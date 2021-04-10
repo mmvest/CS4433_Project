@@ -40,12 +40,15 @@
             echo 'salting\n';
             // Set salt - generate random 64 character long salt
             $this->salt = bin2hex(random_bytes(32));
+            echo 'salt '. $this->salt .' and length is ' . strlen($this->salt);
 
             //Prepend salt to password and hash password
+            echo '\password '. $this->password;
             $this->password = $this->salt . $this->password;
+            echo '\after salt password '. $this->password;
             $this->password = hash('sha256', $this->password);
-
-            echo 'binding\n';
+            echo '\after hash '. $this->password;
+            echo '\binding\n';
             //bind data
             $stmt->bindParam(":username", $this->username);
             $stmt->bindParam(":salt", $this->salt);
