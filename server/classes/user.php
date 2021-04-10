@@ -11,6 +11,7 @@
         public $username;
         public $salt;
         public $password;
+        public $created;
 
         // Connect to db when created
         public function __construct($db)
@@ -44,14 +45,14 @@
             $this->password = $this->salt . $this->password;
             $this->password = hash('sha256', $this->password);
 
-            echo 'binding';
+            echo 'binding\n';
             //bind data
             $stmt->bindpParam(":username", $this->username);
             $stmt->bindpParam(":salt", $this->salt);
             $stmt->bindpParam(":password", $this->password);
             $stmt->bindpParam(":created", $this->created);
 
-            echo 'executing';
+            echo 'executing\n';
             if($stmt->execute())
             {
                 return true;
