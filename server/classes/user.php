@@ -47,10 +47,10 @@
 
             echo 'binding\n';
             //bind data
-            $stmt->bindpParam(":username", $this->username);
-            $stmt->bindpParam(":salt", $this->salt);
-            $stmt->bindpParam(":password", $this->password);
-            $stmt->bindpParam(":created", $this->created);
+            $stmt->bindParam(":username", $this->username);
+            $stmt->bindParam(":salt", $this->salt);
+            $stmt->bindParam(":password", $this->password);
+            $stmt->bindParam(":created", $this->created);
 
             echo 'executing\n';
             if($stmt->execute())
