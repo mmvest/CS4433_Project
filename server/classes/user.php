@@ -48,6 +48,7 @@
             echo '\after salt password '. $this->password;
             $this->password = hash('sha256', $this->password);
             echo '\after hash '. $this->password;
+            echo '\created '. $this->created;
             echo '\binding\n';
             //bind data
             $stmt->bindParam(":username", $this->username);
