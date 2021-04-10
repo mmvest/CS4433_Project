@@ -5,6 +5,7 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
+import com.orangeplasticcup.ocuptimemanagement.ui.home.ScrollingActivity;
 import com.orangeplasticcup.ocuptimemanagement.ui.login.LoginViewModel;
 import com.orangeplasticcup.ocuptimemanagement.ui.login.LoginViewModelFactory;
 
@@ -121,8 +123,10 @@ public class LoginActivity extends AppCompatActivity {
 
     private void updateUiWithUser(LoggedInUserView model) {
         String welcome = getString(R.string.welcome) + model.getDisplayName();
-        // TODO : initiate successful logged in experience
         Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
+        Intent homePage = new Intent(this, ScrollingActivity.class);
+        startActivity(homePage);
+
     }
 
     private void showLoginFailed(@StringRes Integer errorString) {
