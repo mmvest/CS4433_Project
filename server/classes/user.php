@@ -22,7 +22,7 @@
         // Create User
         public function createUser()
         {
-            $sqlQuery = 'INSERT INTO'. $this->db_table .'
+            $sqlQuery = '\INSERT INTO '. $this->db_table .'
                 SET username = :username, 
                     salt = :salt, 
                     password = :password, 
