@@ -110,7 +110,7 @@
                 } else {
                     // Incorrect password
                     echo 'Incorrect username or password. Please try again.';
-                    return false
+                    return false;
                 }
             } else {
                 // Incorrect username
