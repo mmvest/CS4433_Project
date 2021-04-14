@@ -61,17 +61,16 @@
         }
 
         // Login User
-        public function loginUser()
+        public function loginUser($inputUsername, $inputPassword)
         {
             //Check if username and password are in the POST request
-            if(!isset($_POST['username'], $_POST['password']))
+            if(!isset($inputUsername, $inputPassword))
             {
                 //If we can't get the data, return error
                 exit('We need both a username and password to login silly goose.');
             }
 
-            $this->username = $_POST['username'];
-            $inputPassword = $_POST['password'];
+            $this->username = $inputUsername;
 
 
             //Now prepare our login in statements
