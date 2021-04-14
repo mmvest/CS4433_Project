@@ -68,17 +68,8 @@
 
             $inputPassword = $this->password;
 
-            //Now prepare our login in statements
-            $sqlQuery = "SELECT
-                        username,
-                        salt,
-                        password
-                        FROM
-                        ". $this->db_table ."
-                        WHERE
-                        username = ? ";
-           
-            $stmt = $this->conn->prepare($sqlQuery);
+            //prepare login statement
+            $stmt = $this->conn->prepare("SELECT username, salt, password FROM user WHERE username = ?");
 
             // strip characters to prevent SQLI
             $this->username = htmlspecialchars(strip_tags($this->username));
