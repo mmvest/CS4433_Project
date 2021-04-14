@@ -4,7 +4,7 @@
     header("Access-Control-Allow-Methods: POST");
     header("Access-Control-Max-Age: 3600");
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
+    
     include_once '../config/database.php';
     include_once '../classes/user.php';
 
@@ -18,10 +18,7 @@
     $user = new User($db);
 
     //authenticate the user and log them in
-    if($user->loginUser($_POST['username'], $_POST['password']))
+    if($user->loginUser())
     {
         echo 'Login succesful';
-    } else
-    {
-        echo 'Need both login and password';
     }
