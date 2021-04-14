@@ -64,7 +64,7 @@
         public function loginUser()
         {
             //uncomment this for debugging
-            $this->conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
+            //$this->conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 
             $inputPassword = $this->password;
 
@@ -81,11 +81,16 @@
             $stmt->bindParam('s', $this->username);
 
             //We are using this to check if the account even exists before doing comparisons
-            $stmt->execute();
-            
-            $stmt->store_result();
+            if($stmt->execute())
+            {
+                echo 'statement executed';
+            } else{
+                exit('Error executing');
+            }
+
+            //$stmt->store_result();
             //uncomment this for debugging
-            print_r($stmt->errorInfo());
+            //print_r($stmt->errorInfo());
 
             //If the account exists
             if ($stmt->num_rows > 0) {
@@ -112,7 +117,7 @@
                 }
             } else {
                 // Incorrect username
-                echo 'Incorrect username or password. Please try again.';
+                echo 'Account does not exist or you used an incorrect username and password. Please try again.';
                 return false;
             }
 
