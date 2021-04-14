@@ -17,6 +17,18 @@
     //Read in the data from the post
     $data = json_decode(file_get_contents("php://input"));
 
+    //Make sure there are no spaces in username
+    if($data->password == trim($data->password) && strpos($data->password, ' ') !== false)
+    {
+        exit('Please do not include spaces in your entries. Registration could not be completed.');
+    }
+
+    //Make sure there are no spaces in password
+    if($data->password !== trim($data->password) || strpos($data->password, ' ') !== false)
+    {
+        exit('Please do not include spaces in your entries. Registration could not be completed.');
+    }
+
     //Set variables
     $newUser->username = $data->username;
     $newUser->password = $data->password;
