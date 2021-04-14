@@ -87,8 +87,8 @@
                 exit('Error executing');
             }
 
-            //$stmt->store_result();
-
+            $dataRow = $stmt->fetch(PDO::FETCH_ASSOC);
+            var_dump($dataRow);
 
             //If the account exists
             // if ($stmt->num_rows > 0) {
