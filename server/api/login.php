@@ -9,7 +9,7 @@
     include_once '../classes/user.php';
 
     //start the session
-    //session_start();
+    session_start();
 
     $database = new Database();
     $db = $database->getConnection();

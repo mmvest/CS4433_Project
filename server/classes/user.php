@@ -67,7 +67,7 @@
                 WHERE username = :username'; 
 
             //uncomment this for debugging
-            $this->conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
+            //$this->conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 
             $stmt = $this->conn->prepare($sqlQuery);
 
@@ -78,13 +78,11 @@
              $stmt->bindParam(":username", $this->username);
 
             //We are using this to check if the account even exists before doing comparisons
-            if($stmt->execute())
+            if(!($stmt->execute()))
             {
-                echo 'statement executed';
-            } else{
                 //uncomment this for debugging
-                print_r($stmt->errorInfo());
-                exit('Error executing');
+                //print_r($stmt->errorInfo());
+                exit('Error logging in.');
             }
 
             //If the account exists
@@ -105,7 +103,7 @@
                     // create session data
                     session_regenerate_id();
                     $_SESSION['loggedin'] = TRUE;
-                    $_SESSION['user'] = $_POST['username'];
+                    $_SESSION['user'] = $this->username;
                     return true;
                 } else {
                     // Incorrect password
