@@ -63,20 +63,19 @@
         // Login User
         public function loginUser()
         {
+            $sqlQuery = 'SELECT * FROM ' . $this->db_table .'
+                WHERE username = :username'; 
+
             //uncomment this for debugging
             $this->conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 
-            $inputPassword = $this->password;
-
-            //prepare login statement
-            $stmt = $this->conn->prepare("SELECT username, salt, password FROM user WHERE username = ?");
+            $stmt = $this->conn->prepare($sqlQuery);
 
             // strip characters to prevent SQLI
             $this->username = htmlspecialchars(strip_tags($this->username));
-            $inputPassword = htmlspecialchars(strip_tags($inputPassword));
-            
-            //bind the parameter
-            $stmt->bindParam("s", $this->username);
+
+             //bind data
+             $stmt->bindParam(":username", $this->username);
 
             //We are using this to check if the account even exists before doing comparisons
             if($stmt->execute())
@@ -92,33 +91,34 @@
 
 
             //If the account exists
-            if ($stmt->num_rows > 0) {
-                //prepare these variables to be bound
-                $stmt->bind_result($this->username, $this->salt, $this->password);
+            // if ($stmt->num_rows > 0) {
+            //     $inputPassword = 
+            //     //prepare these variables to be bound
+            //     $stmt->bind_result($this->username, $this->salt, $this->password);
                 
-                //fetch results from prepared statement and put them into the bound variables
-                $stmt->fetch();
+            //     //fetch results from prepared statement and put them into the bound variables
+            //     $stmt->fetch();
                 
-                //hash the input password to prepare it for comparison
-                $inputPassword = hash('sha256', $this->salt . $inputPassword);
+            //     //hash the input password to prepare it for comparison
+            //     $inputPassword = hash('sha256', $this->salt . $inputPassword);
 
-                //if the input password is completely identical to the password in the DB then...
-                if( $inputPassword === $this->password) {
-                    // create session data
-                    session_regenerate_id();
-                    $_SESSION['loggedin'] = TRUE;
-                    $_SESSION['user'] = $_POST['username'];
-                    return true;
-                } else {
-                    // Incorrect password
-                    echo 'Incorrect username or password. Please try again.';
-                    return false;
-                }
-            } else {
-                // Incorrect username
-                echo 'Account does not exist or you used an incorrect username and password. Please try again.';
-                return false;
-            }
+            //     //if the input password is completely identical to the password in the DB then...
+            //     if( $inputPassword === $this->password) {
+            //         // create session data
+            //         session_regenerate_id();
+            //         $_SESSION['loggedin'] = TRUE;
+            //         $_SESSION['user'] = $_POST['username'];
+            //         return true;
+            //     } else {
+            //         // Incorrect password
+            //         echo 'Incorrect username or password. Please try again.';
+            //         return false;
+            //     }
+            // } else {
+            //     // Incorrect username
+            //     echo 'Account does not exist or you used an incorrect username and password. Please try again.';
+            //     return false;
+            // }
 
             $stmt->close();
         }
