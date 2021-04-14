@@ -69,14 +69,14 @@
             $inputPassword = $this->password;
 
             //Now prepare our login in statements
-            $sqlQuery = 'SELECT
+            $sqlQuery = "SELECT
                         username,
                         salt,
                         password
                         FROM
-                        ' . $this->db_table .'
+                        ". $this->db_table ."
                         WHERE
-                        username = ? ';
+                        username = ? ";
            
             $stmt = $this->conn->prepare($sqlQuery);
 
