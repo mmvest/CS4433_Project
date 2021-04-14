@@ -64,7 +64,7 @@
         public function loginUser()
         {
             //uncomment this for debugging
-            //$this->conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
+            $this->conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
 
             $inputPassword = $this->password;
 
@@ -85,12 +85,13 @@
             {
                 echo 'statement executed';
             } else{
+                //uncomment this for debugging
+                print_r($stmt->errorInfo());
                 exit('Error executing');
             }
 
             //$stmt->store_result();
-            //uncomment this for debugging
-            //print_r($stmt->errorInfo());
+
 
             //If the account exists
             if ($stmt->num_rows > 0) {
