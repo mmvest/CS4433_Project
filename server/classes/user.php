@@ -63,12 +63,13 @@
         // Login User
         public function loginUser()
         {
-            $this->username = $_POST['username'];
+            //uncomment this for debugging
+            $this->conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING );
+
             $inputPassword = $this->password;
 
-
             //Now prepare our login in statements
-            $sqlQuery = 'SELECT username, salt, password FROM ' . $this->db_tableuser . ' WHERE username = :username';
+            $sqlQuery = 'SELECT username, salt, password FROM ' . $this->db_table . ' WHERE username = :username';
             $stmt = $this->conn->prepare($sqlQuery);
 
             // strip characters to prevent SQLI
@@ -81,6 +82,8 @@
             //We are using this to check if the account even exists before doing comparisons
             $stmt->execute();
             $stmt->store_result();
+            //uncomment this for debugging
+            print_r($stmt->errorInfo());
 
             //If the account exists
             if ($stmt->num_rows > 0) {
