@@ -69,8 +69,15 @@
             $inputPassword = $this->password;
 
             //Now prepare our login in statements
-            $sqlQuery = 'SELECT username, salt, password FROM ' . $this->db_table .'
-                WHERE username = ?';
+            $sqlQuery = 'SELECT
+                        username,
+                        salt,
+                        password
+                        FROM
+                        ' . $this->db_table .'
+                        WHERE
+                        username = ? ';
+           
             $stmt = $this->conn->prepare($sqlQuery);
 
             // strip characters to prevent SQLI
@@ -78,7 +85,7 @@
             $inputPassword = htmlspecialchars(strip_tags($inputPassword));
             
             //bind the parameter
-            $stmt->bindParam('s', $this->username);
+            $stmt->bindParam("s", $this->username);
 
             //We are using this to check if the account even exists before doing comparisons
             if($stmt->execute())
