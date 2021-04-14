@@ -87,10 +87,8 @@
                 exit('Error executing');
             }
 
-            $data = $stmt->fetch(PDO::FETCH_ASSOC);
-
             //If the account exists
-            if ($data->rowCount() > 0) {
+            if (($data = $stmt->fetch(PDO::FETCH_ASSOC)) !== false) {
 
                 // strip characters to prevent SQLI
                 $inputPassword = htmlspecialchars(strip_tags($this->password));
