@@ -63,18 +63,8 @@
         // Login User
         public function loginUser()
         {
-            //Read in the data from the post
-            $data = json_decode(file_get_contents("php://input"));
-
-            //Check if username and password are in the POST request
-            if(!isset($data->username, $data->password))
-            {
-                //If we can't get the data, return error
-                exit('We need both a username and password to login silly goose.');
-            }
-
             $this->username = $_POST['username'];
-            $inputPassword = $_POST['password'];
+            $inputPassword = $this->password;
 
 
             //Now prepare our login in statements
