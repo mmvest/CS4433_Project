@@ -10,9 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.OCupTimeManagement">
         <activity
+            android:name=".ui.register.RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:theme="@style/Theme.OCupTimeManagement.NoActionBar"></activity>
+        <activity
             android:name=".ui.home.ScrollingActivity"
             android:label="@string/title_activity_scrolling"
-            android:theme="@style/Theme.OCupTimeManagement.NoActionBar"></activity>
+            android:theme="@style/Theme.OCupTimeManagement.NoActionBar" />
         <activity
             android:name=".ui.home.HomeActivity"
             android:label="@string/title_activity_home"
