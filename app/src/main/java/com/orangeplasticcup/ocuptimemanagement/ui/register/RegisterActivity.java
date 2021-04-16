@@ -2,13 +2,12 @@ package com.orangeplasticcup.ocuptimemanagement.ui.register;
 
 import android.os.Bundle;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.View;
+import android.widget.EditText;
+import android.widget.Button;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
 
@@ -18,16 +17,29 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+
+        final Toolbar toolbar = findViewById(R.id.toolbar);
+        final EditText username = findViewById(R.id.newUsername);
+        final EditText usernameConfirm = findViewById(R.id.newUsernameConfirm);
+        final EditText password = findViewById(R.id.newPassword);
+        final EditText passwordConfirm = findViewById(R.id.newPasswordConfirm);
+        final Button registerButton = findViewById(R.id.registerUser);
+        final Button backButton = findViewById(R.id.back);
+
         setSupportActionBar(toolbar);
 
-        /*FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+            public void onClick(View v) {
+                finish();
             }
-        });*/
+        });
+
+        registerButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 }

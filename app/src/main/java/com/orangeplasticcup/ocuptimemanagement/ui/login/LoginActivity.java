@@ -29,7 +29,7 @@ import com.orangeplasticcup.ocuptimemanagement.ui.register.RegisterActivity;
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
-    private static LoginActivity instance;
+    private LoginActivity instance;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
