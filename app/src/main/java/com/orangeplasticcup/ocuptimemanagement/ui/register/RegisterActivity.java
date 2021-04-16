@@ -7,20 +7,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.Observer;
 
+import android.text.Editable;
 import android.view.View;
+import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.Button;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
-import com.orangeplasticcup.ocuptimemanagement.ui.login.LoginFormState;
 import com.orangeplasticcup.ocuptimemanagement.ui.login.Result;
 
 public class RegisterActivity extends AppCompatActivity {
+
+    private RegisterActivity instance;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
+        instance = this;
 
         final Toolbar toolbar = findViewById(R.id.toolbar);
 
@@ -34,9 +39,9 @@ public class RegisterActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
 
-        registerViewModel.getRegisterFormState().observe(this, new Observer<LoginFormState>() {
+        registerViewModel.getRegisterFormState().observe(this, new Observer<RegisterFormState>() {
             @Override
-            public void onChanged(LoginFormState registerFormState) {
+            public void onChanged(RegisterFormState registerFormState) {
                 if (registerFormState == null) {
                     return;
                 }
@@ -44,8 +49,14 @@ public class RegisterActivity extends AppCompatActivity {
                 if (registerFormState.getUsernameError() != null) {
                     username.setError(getString(registerFormState.getUsernameError()));
                 }
+                if (registerFormState.getUsernameMatchError() != null) {
+                    usernameConfirm.setError(getString(registerFormState.getUsernameMatchError()));
+                }
                 if (registerFormState.getPasswordError() != null) {
                     password.setError(getString(registerFormState.getPasswordError()));
+                }
+                if (registerFormState.getPasswordMatchError() != null) {
+                    passwordConfirm.setError(getString(registerFormState.getPasswordMatchError()));
                 }
             }
         });
@@ -68,10 +79,37 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+        TextWatcher afterTextChangedListener = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // ignore
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                // ignore
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                registerViewModel.registerDataChanged(
+                        username.getText().toString(),
+                        usernameConfirm.getText().toString(),
+                        password.getText().toString(),
+                        passwordConfirm.getText().toString());
+            }
+        };
+
+        username.addTextChangedListener(afterTextChangedListener);
+        usernameConfirm.addTextChangedListener(afterTextChangedListener);
+        password.addTextChangedListener(afterTextChangedListener);
+        passwordConfirm.addTextChangedListener(afterTextChangedListener);
+
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                registerViewModel.register(instance, username.getText().toString().trim(), password.getText().toString().trim());
+                registerButton.setEnabled(false);
             }
         });
 

@@ -1,37 +1,86 @@
 package com.orangeplasticcup.ocuptimemanagement.ui.register;
 
+import android.content.Context;
+
+import com.android.volley.Cache;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.DiskBasedCache;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.ui.ValidationViewModel;
-import com.orangeplasticcup.ocuptimemanagement.ui.login.LoginFormState;
 import com.orangeplasticcup.ocuptimemanagement.ui.login.Result;
+
+import org.json.JSONObject;
 
 public class RegisterViewModel extends ValidationViewModel {
 
-    private MutableLiveData<LoginFormState> registerFormState = new MutableLiveData<>();
+    private MutableLiveData<RegisterFormState> registerFormState = new MutableLiveData<>();
     private MutableLiveData<Result> loginResult = new MutableLiveData<>();
 
-    LiveData<LoginFormState> getRegisterFormState() {
-        return registerFormState;
-    }
+    private static final String URL = "https://66.103.121.23/api/register.php";
 
+    LiveData<RegisterFormState> getRegisterFormState() { return registerFormState; }
     LiveData<Result> getRegisterResult() {
         return loginResult;
     }
 
-    public void register(String username, String password) {
+    public void register(Context context, String username, String password) {
+        //System.out.println("{username: " + username + ", password: " + password + "}");
 
+        // When reimplemented as an API, this will need to setup a memory cache and network protocol
+        // https://developer.android.com/training/volley/requestqueue#java
+        // https://developer.android.com/topic/performance/graphics/cache-bitmap
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+
+        Map<String, String> data = new HashMap<>();
+        data.put("username", username);
+        data.put("password", password);
+
+        JsonObjectRequest registerPOSTRequest = new JsonObjectRequest(URL, new JSONObject(data), new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                System.out.println("Server Response: " + response);
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("Error Response: " + error);
+            }
+        });
+
+        registerPOSTRequest.setRetryPolicy(new DefaultRetryPolicy(
+                150,
+                5,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
+        // NOTE: Current error on request "com.android.volley.TimeoutError"
+        requestQueue.add(registerPOSTRequest);
     }
 
-    public void loginDataChanged(String username, String usernameConfirm, String password, String passwordConfirm) {
+    public void registerDataChanged(String username, String usernameConfirm, String password, String passwordConfirm) {
         if (!isUserNameValid(username)) {
-            registerFormState.setValue(new LoginFormState(R.string.invalid_username, null));
+            registerFormState.setValue(new RegisterFormState(R.string.invalid_username, null, null, null));
         } else if (!isPasswordValid(password)) {
-            registerFormState.setValue(new LoginFormState(null, R.string.invalid_password));
+            registerFormState.setValue(new RegisterFormState(null, null, R.string.invalid_password, null));
+        } else if (!username.trim().equals(usernameConfirm.trim())) {
+            registerFormState.setValue(new RegisterFormState(null, R.string.username_nonmatch, null, null));
+        } else if (!password.trim().equals(passwordConfirm.trim())) {
+            registerFormState.setValue(new RegisterFormState(null, null, null, R.string.password_nonmatch));
         } else {
-            registerFormState.setValue(new LoginFormState(true));
+            registerFormState.setValue(new RegisterFormState(true));
         }
     }
 }

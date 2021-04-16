@@ -4,14 +4,18 @@ import androidx.lifecycle.ViewModel;
 
 public class ValidationViewModel extends ViewModel {
     protected boolean isUserNameValid(String username) {
-        if (username == null || username.contains("@")) {
+        if (username == null || username.trim().isEmpty()) {
             return false;
         }
-        return !username.trim().isEmpty();
+
+        return !username.trim().contains(" ");
     }
 
-    // A placeholder password validation check
     protected boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() >= 8;
+        if (password == null || password.trim().length() < 8) {
+            return false;
+        }
+
+        return !password.trim().contains(" ");
     }
 }
