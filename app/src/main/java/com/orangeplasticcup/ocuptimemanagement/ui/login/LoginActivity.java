@@ -76,8 +76,8 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 setResult(Activity.RESULT_OK);
 
-                //Intent homePage = new Intent(this, ScrollingActivity.class);
-                //startActivity(homePage);
+                //Intent homeActivity = new Intent(this, HomeActivity.class);
+                //startActivity(homeActivity);
 
                 //Complete and destroy login activity once successful
                 //finish();
