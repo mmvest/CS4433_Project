@@ -8,7 +8,7 @@
     <string name="action_sign_in_short">Sign in</string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
-    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="invalid_password">Password must be >=8 characters</string>
     <string name="login_failed">"Login failed"</string>
     <string name="title_activity_home">HomeActivity</string>
     <string name="tab_text_1">Tab 1</string>
@@ -23,4 +23,6 @@
     <string name="action_register">Register</string>
     <string name="action_back">Back</string>
     <string name="toolbar_text">Register New User</string>
+    <string name="username_nonmatch">Username fields don\'t match</string>
+    <string name="password_nonmatch">Password fields don\'t match</string>
 </resources>

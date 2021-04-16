@@ -61,26 +61,26 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
+        loginViewModel.getLoginResult().observe(this, new Observer<Result>() {
             @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null) {
+            public void onChanged(@Nullable Result result) {
+                if (result == null) {
                     return;
                 }
                 loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
+                if (result.getError() != null) {
+                    showLoginFailed(result.getError());
                 }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
+                if (result.getSuccess() != null) {
+                    updateUiWithUser(result.getSuccess());
+
+                    //Intent homeActivity = new Intent(this, HomeActivity.class);
+                    //startActivity(homeActivity);
+
+                    //Complete and destroy login activity once successful
+                    //finish();
                 }
                 setResult(Activity.RESULT_OK);
-
-                //Intent homeActivity = new Intent(this, HomeActivity.class);
-                //startActivity(homeActivity);
-
-                //Complete and destroy login activity once successful
-                //finish();
             }
         });
 
