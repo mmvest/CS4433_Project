@@ -30,7 +30,7 @@ public class RegisterViewModel extends ValidationViewModel {
     private MutableLiveData<RegisterFormState> registerFormState = new MutableLiveData<>();
     private MutableLiveData<Result> loginResult = new MutableLiveData<>();
 
-    private static final String URL = "https://66.103.121.23/api/register.php";
+    private static final String URL = "http://66.103.121.23/api/register.php";
 
     LiveData<RegisterFormState> getRegisterFormState() { return registerFormState; }
     LiveData<Result> getRegisterResult() {
