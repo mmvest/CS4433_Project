@@ -11,27 +11,24 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.ui.ValidationViewModel;
-import com.orangeplasticcup.ocuptimemanagement.ui.login.LoginResult;
+import com.orangeplasticcup.ocuptimemanagement.data.Result;
 
 import org.json.JSONObject;
 
 public class RegisterViewModel extends ValidationViewModel {
 
     private MutableLiveData<RegisterFormState> registerFormState = new MutableLiveData<>();
-    private MutableLiveData<LoginResult> registerResult = new MutableLiveData<>();
+    private MutableLiveData<Result<String>> registerResult = new MutableLiveData<>();
 
     private static final String URL = "http://66.103.121.23/api/register.php";
 
     LiveData<RegisterFormState> getRegisterFormState() { return registerFormState; }
-    LiveData<LoginResult> getRegisterResult() {
+    LiveData<Result<String>> getRegisterResult() {
         return registerResult;
     }
 
@@ -55,23 +52,23 @@ public class RegisterViewModel extends ValidationViewModel {
             public void onResponse(String response) {
                 if(response.equals("Please do not include spaces in your username entry. Registration could not be completed.") ||
                         response.equals("Please do not include spaces in your password entry. Registration could not be completed.")) {
-                    registerResult.setValue(new LoginResult(R.string.register_failure));
+                    registerResult.setValue(new Result<>.Error(new Exception(context.getString(R.string.register_failure))));
                 }
                 else if(response.equals("Registration could not be completed.")) {
-                    registerResult.setValue(new LoginResult(R.string.register_bad_username));
+                    registerResult.setValue(new Result<>.Error(new Exception(context.getString(R.string.register_bad_username))));
                 }
                 else if(response.equals("Registered Successfully.")) {
-                    registerResult.setValue(new LoginResult(R.string.register_success));
+                    registerResult.setValue(new Result<>.Success<String>(context.getString(R.string.register_success)));
                 }
                 else {
-                    registerResult.setValue(new LoginResult(R.string.register_unknown_error));
+                    registerResult.setValue(new Result<>.Error(new Exception(context.getString(R.string.register_unknown_error))));
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println("Error Response: " + error);
-                registerResult.setValue(new LoginResult(R.string.register_failure));
+                registerResult.setValue(new Result<>.Error(new Exception(context.getString(R.string.register_unknown_error))));
             }
         }) {
             @Override
