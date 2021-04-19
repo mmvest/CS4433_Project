@@ -27,6 +27,18 @@
         exit('We need both a username and password to login silly goose.');
     }
 
+    //Make sure there are no spaces in username
+    if($data->username !== trim($data->username) || strpos($data->username, ' ') !== false)
+    {
+        exit('Please do not include spaces in your entries. Login could not be completed.');
+    }
+
+    //Make sure there are no spaces in password
+    if($data->password !== trim($data->password) || strpos($data->password, ' ') !== false)
+    {
+        exit('Please do not include spaces in your entries. Login could not be completed.');
+    }
+
     $user->username = $data->username;
     $user->password = $data->password;
 
@@ -34,5 +46,5 @@
     //authenticate the user and log them in
     if($user->loginUser())
     {
-        echo 'Login succesful';
+        echo 'Login successful';
     }
