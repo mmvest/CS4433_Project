@@ -20,13 +20,13 @@
     //Make sure there are no spaces in username
     if($data->username !== trim($data->username) || strpos($data->username, ' ') !== false)
     {
-        exit('Please do not include spaces in your entries. Registration could not be completed.');
+        exit('Please do not include spaces in your username entry. Registration could not be completed.');
     }
 
     //Make sure there are no spaces in password
     if($data->password !== trim($data->password) || strpos($data->password, ' ') !== false)
     {
-        exit('Please do not include spaces in your entries. Registration could not be completed.');
+        exit('Please do not include spaces in your password entry. Registration could not be completed.');
     }
 
     //Set variables
