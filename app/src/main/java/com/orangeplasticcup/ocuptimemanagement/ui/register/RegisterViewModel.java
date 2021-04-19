@@ -93,10 +93,10 @@ public class RegisterViewModel extends ValidationViewModel {
     public void registerDataChanged(String username, String usernameConfirm, String password, String passwordConfirm) {
         if (!isUserNameValid(username)) {
             registerFormState.setValue(new RegisterFormState(R.string.invalid_username, null, null, null));
-        } else if (!isPasswordValid(password)) {
-            registerFormState.setValue(new RegisterFormState(null, null, R.string.invalid_password, null));
         } else if (!username.trim().equals(usernameConfirm.trim())) {
             registerFormState.setValue(new RegisterFormState(null, R.string.username_nonmatch, null, null));
+        } else if (!isPasswordValid(password)) {
+            registerFormState.setValue(new RegisterFormState(null, null, R.string.invalid_password, null));
         } else if (!password.trim().equals(passwordConfirm.trim())) {
             registerFormState.setValue(new RegisterFormState(null, null, null, R.string.password_nonmatch));
         } else {
