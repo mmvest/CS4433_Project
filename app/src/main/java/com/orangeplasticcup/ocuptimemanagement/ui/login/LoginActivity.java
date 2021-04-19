@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
+import com.orangeplasticcup.ocuptimemanagement.networking.NetworkManager;
 import com.orangeplasticcup.ocuptimemanagement.ui.register.RegisterActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -35,10 +36,12 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         //super.onCreate(savedInstanceState);
         super.onCreate(Bundle.EMPTY); // If the bug returns where Toasts don't show up and the app keeps crashing. Know that this didn't work
-        instance = this;
         setContentView(R.layout.activity_login);
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
                 .get(LoginViewModel.class);
+
+        instance = this;
+        NetworkManager.getInstance(this.getApplicationContext());
 
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
@@ -103,7 +106,7 @@ public class LoginActivity extends AppCompatActivity {
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
-        passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+        /*passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -113,7 +116,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 return false;
             }
-        });
+        });*/
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override

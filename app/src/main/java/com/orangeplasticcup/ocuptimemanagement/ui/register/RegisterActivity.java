@@ -22,7 +22,8 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        //super.onCreate(savedInstanceState);
+        super.onCreate(Bundle.EMPTY);
         setContentView(R.layout.activity_register);
 
         instance = this;
