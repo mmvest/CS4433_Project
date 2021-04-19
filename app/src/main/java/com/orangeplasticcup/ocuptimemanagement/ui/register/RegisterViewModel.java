@@ -50,25 +50,27 @@ public class RegisterViewModel extends ValidationViewModel {
         StringRequest registerPOSTRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                if(response.equals("Please do not include spaces in your username entry. Registration could not be completed.") ||
-                        response.equals("Please do not include spaces in your password entry. Registration could not be completed.")) {
-                    registerResult.setValue(new Result<>.Error(new Exception(context.getString(R.string.register_failure))));
-                }
-                else if(response.equals("Registration could not be completed.")) {
-                    registerResult.setValue(new Result<>.Error(new Exception(context.getString(R.string.register_bad_username))));
-                }
-                else if(response.equals("Registered Successfully.")) {
-                    registerResult.setValue(new Result<>.Success<String>(context.getString(R.string.register_success)));
-                }
-                else {
-                    registerResult.setValue(new Result<>.Error(new Exception(context.getString(R.string.register_unknown_error))));
+                switch (response) {
+                    case "Please do not include spaces in your username entry. Registration could not be completed.":
+                    case "Please do not include spaces in your password entry. Registration could not be completed.":
+                        registerResult.setValue(new Result.Error(new Exception(context.getString(R.string.register_bad_format))));
+                        break;
+                    case "Registration could not be completed.":
+                        registerResult.setValue(new Result.Error(new Exception(context.getString(R.string.register_bad_username))));
+                        break;
+                    case "Registered Successfully.":
+                        registerResult.setValue(new Result.Success<String>("Successfully registered user '" + username + "'"));
+                        break;
+                    default:
+                        registerResult.setValue(new Result.Error(new Exception(context.getString(R.string.register_unknown_error))));
+                        break;
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println("Error Response: " + error);
-                registerResult.setValue(new Result<>.Error(new Exception(context.getString(R.string.register_unknown_error))));
+                registerResult.setValue(new Result.Error(new Exception(context.getString(R.string.register_unknown_error))));
             }
         }) {
             @Override
@@ -82,7 +84,7 @@ public class RegisterViewModel extends ValidationViewModel {
                 5,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         ));
-        // NOTE: Current error on request "com.android.volley.TimeoutError"
+
         requestQueue.add(registerPOSTRequest);
     }
 

@@ -26,7 +26,7 @@
     <string name="username_nonmatch">Username fields don\'t match</string>
     <string name="password_nonmatch">Password fields don\'t match</string>
     <string name="register_success">Registration success</string>
-    <string name="register_failure">Registration failure</string>
+    <string name="register_bad_format">Registration failure due to bad formatting</string>
     <string name="register_unknown_error">Registration failed due to unknown error</string>
     <string name="register_bad_username">Username is already taken</string>
 </resources>

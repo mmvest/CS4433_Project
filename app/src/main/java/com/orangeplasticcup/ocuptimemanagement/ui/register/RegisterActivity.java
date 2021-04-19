@@ -1,6 +1,5 @@
 package com.orangeplasticcup.ocuptimemanagement.ui.register;
 
-import android.app.Activity;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,6 +11,7 @@ import android.view.View;
 import android.text.TextWatcher;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.data.Result;
@@ -68,27 +68,25 @@ public class RegisterActivity extends AppCompatActivity {
                     return;
                 }
                 if (loginResult instanceof Result.Error) {
-                    //showLoginFailed(result.getError());
+                    Result.Error loginError = (Result.Error) loginResult;
+                    Toast.makeText(getApplicationContext(), loginError.getError().getMessage(), Toast.LENGTH_LONG).show();
+                    registerButton.setEnabled(true);
                 }
                 if (loginResult instanceof Result.Success) {
-                    //updateUiWithUser(result.getSuccess());
+                    Result.Success loginSuccess = (Result.Success) loginResult;
+                    Toast.makeText(getApplicationContext(), loginSuccess.getData().toString(), Toast.LENGTH_LONG).show();
 
                     finish();
                 }
-                setResult(Activity.RESULT_OK);
             }
         });
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // ignore
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // ignore
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
