@@ -2,6 +2,7 @@ package com.orangeplasticcup.ocuptimemanagement.ui.register;
 
 import android.content.Context;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -19,6 +20,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.ui.ValidationViewModel;
 import com.orangeplasticcup.ocuptimemanagement.ui.login.LoginResult;
+
+import org.json.JSONObject;
 
 public class RegisterViewModel extends ValidationViewModel {
 
@@ -40,15 +43,29 @@ public class RegisterViewModel extends ValidationViewModel {
         // https://developer.android.com/topic/performance/graphics/cache-bitmap
         RequestQueue requestQueue = Volley.newRequestQueue(context);
 
-        Map<String, String> data = new HashMap<>();
-        data.put("username", username);
-        data.put("password", password);
+        final JSONObject body = new JSONObject();
+        try {
+            body.put("username", username);
+            body.put("password", password);
+        }
+        catch(Exception ignored) {}
 
         StringRequest registerPOSTRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                System.out.println("Server Response: " + response);
-                registerResult.setValue(new LoginResult(R.string.register_success));
+                if(response.equals("Please do not include spaces in your username entry. Registration could not be completed.") ||
+                        response.equals("Please do not include spaces in your password entry. Registration could not be completed.")) {
+                    registerResult.setValue(new LoginResult(R.string.register_failure));
+                }
+                else if(response.equals("Registration could not be completed.")) {
+                    registerResult.setValue(new LoginResult(R.string.register_bad_username));
+                }
+                else if(response.equals("Registered Successfully.")) {
+                    registerResult.setValue(new LoginResult(R.string.register_success));
+                }
+                else {
+                    registerResult.setValue(new LoginResult(R.string.register_unknown_error));
+                }
             }
         }, new Response.ErrorListener() {
             @Override
@@ -57,8 +74,9 @@ public class RegisterViewModel extends ValidationViewModel {
                 registerResult.setValue(new LoginResult(R.string.register_failure));
             }
         }) {
-            protected Map<String, String> getParams() {
-                return data;
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                return body.toString().getBytes();
             }
         };
 

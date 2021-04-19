@@ -93,10 +93,10 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 registerViewModel.registerDataChanged(
-                        username.getText().toString(),
-                        usernameConfirm.getText().toString(),
-                        password.getText().toString(),
-                        passwordConfirm.getText().toString());
+                        username.getText().toString().trim(),
+                        usernameConfirm.getText().toString().trim(),
+                        password.getText().toString().trim(),
+                        passwordConfirm.getText().toString().trim());
             }
         };
 
