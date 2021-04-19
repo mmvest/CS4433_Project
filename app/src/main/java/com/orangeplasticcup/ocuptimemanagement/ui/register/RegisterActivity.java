@@ -61,19 +61,20 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        registerViewModel.getRegisterResult().observe(this, new Observer<Result>() {
+        registerViewModel.getRegisterResult().observe(this, new Observer<Result<String>>() {
             @Override
-            public void onChanged(Result loginResult) {
+            public void onChanged(Result<String> loginResult) {
                 if(loginResult == null) {
                     return;
                 }
                 if (loginResult instanceof Result.Error) {
                     Result.Error loginError = (Result.Error) loginResult;
                     Toast.makeText(getApplicationContext(), loginError.getError().getMessage(), Toast.LENGTH_LONG).show();
+
                     registerButton.setEnabled(true);
                 }
                 if (loginResult instanceof Result.Success) {
-                    Result.Success loginSuccess = (Result.Success) loginResult;
+                    Result.Success<String> loginSuccess = (Result.Success<String>) loginResult;
                     Toast.makeText(getApplicationContext(), loginSuccess.getData().toString(), Toast.LENGTH_LONG).show();
 
                     finish();

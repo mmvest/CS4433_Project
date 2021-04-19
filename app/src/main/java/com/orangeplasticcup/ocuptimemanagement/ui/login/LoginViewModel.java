@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.orangeplasticcup.ocuptimemanagement.data.LoginRepository;
-import com.orangeplasticcup.ocuptimemanagement.data.Result;
 import com.orangeplasticcup.ocuptimemanagement.data.model.LoggedInUser;
 import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.ui.ValidationViewModel;
@@ -29,10 +28,10 @@ public class LoginViewModel extends ValidationViewModel {
 
     public void login(String username, String password) {
         // can be launched in a separate asynchronous job
-        Result<LoggedInUser> result = loginRepository.login(username, password);
+        com.orangeplasticcup.ocuptimemanagement.data.Result result = loginRepository.login(username, password);
 
-        if (result instanceof Result.Success) {
-            LoggedInUser data = ((Result.Success<LoggedInUser>) result).getData();
+        if (result instanceof com.orangeplasticcup.ocuptimemanagement.data.Result.Success) {
+            LoggedInUser data = ((com.orangeplasticcup.ocuptimemanagement.data.Result.Success<LoggedInUser>) result).getData();
             loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
         } else {
             loginResult.setValue(new LoginResult(R.string.login_failed));
