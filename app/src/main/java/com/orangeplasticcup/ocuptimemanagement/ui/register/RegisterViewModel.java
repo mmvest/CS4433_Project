@@ -15,6 +15,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
+import com.orangeplasticcup.ocuptimemanagement.data.networking.NetworkManager;
 import com.orangeplasticcup.ocuptimemanagement.ui.ValidationViewModel;
 import com.orangeplasticcup.ocuptimemanagement.data.Result;
 
@@ -33,12 +34,6 @@ public class RegisterViewModel extends ValidationViewModel {
     }
 
     public void register(Context context, String username, String password) {
-        //System.out.println("{username: " + username + ", password: " + password + "}");
-
-        // When reimplemented as an API, this will need to setup a memory cache and network protocol
-        // https://developer.android.com/training/volley/requestqueue#java
-        // https://developer.android.com/topic/performance/graphics/cache-bitmap
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         final JSONObject body = new JSONObject();
         try {
@@ -85,7 +80,7 @@ public class RegisterViewModel extends ValidationViewModel {
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         ));
 
-        requestQueue.add(registerPOSTRequest);
+        NetworkManager.getInstance().addToRequestQueue(registerPOSTRequest);
     }
 
     public void registerDataChanged(String username, String usernameConfirm, String password, String passwordConfirm) {
