@@ -33,7 +33,8 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        //super.onCreate(savedInstanceState);
+        super.onCreate(Bundle.EMPTY); // If the bug returns where Toasts don't show up and the app keeps crashing. Know that this didn't work
         instance = this;
         setContentView(R.layout.activity_login);
         loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
