@@ -25,4 +25,6 @@
     <string name="toolbar_text">Register New User</string>
     <string name="username_nonmatch">Username fields don\'t match</string>
     <string name="password_nonmatch">Password fields don\'t match</string>
+    <string name="register_success">Registration success</string>
+    <string name="register_failure">Registration failure</string>
 </resources>

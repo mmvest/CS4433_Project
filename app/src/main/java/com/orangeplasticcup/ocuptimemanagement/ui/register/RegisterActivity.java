@@ -14,7 +14,7 @@ import android.widget.EditText;
 import android.widget.Button;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
-import com.orangeplasticcup.ocuptimemanagement.ui.login.Result;
+import com.orangeplasticcup.ocuptimemanagement.ui.login.LoginResult;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -61,16 +61,16 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        registerViewModel.getRegisterResult().observe(this, new Observer<Result>() {
+        registerViewModel.getRegisterResult().observe(this, new Observer<LoginResult>() {
             @Override
-            public void onChanged(Result result) {
-                if(result == null) {
+            public void onChanged(LoginResult loginResult) {
+                if(loginResult == null) {
                     return;
                 }
-                if (result.getError() != null) {
+                if (loginResult.getError() != null) {
                     //showLoginFailed(result.getError());
                 }
-                if (result.getSuccess() != null) {
+                if (loginResult.getSuccess() != null) {
                     //updateUiWithUser(result.getSuccess());
 
                     finish();

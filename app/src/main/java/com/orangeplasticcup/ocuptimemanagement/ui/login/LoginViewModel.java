@@ -11,7 +11,7 @@ import com.orangeplasticcup.ocuptimemanagement.ui.ValidationViewModel;
 public class LoginViewModel extends ValidationViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
-    private MutableLiveData<Result> loginResult = new MutableLiveData<>();
+    private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
     private LoginRepository loginRepository;
 
     LoginViewModel(LoginRepository loginRepository) {
@@ -22,7 +22,7 @@ public class LoginViewModel extends ValidationViewModel {
         return loginFormState;
     }
 
-    LiveData<Result> getLoginResult() {
+    LiveData<LoginResult> getLoginResult() {
         return loginResult;
     }
 
@@ -32,9 +32,9 @@ public class LoginViewModel extends ValidationViewModel {
 
         if (result instanceof com.orangeplasticcup.ocuptimemanagement.data.Result.Success) {
             LoggedInUser data = ((com.orangeplasticcup.ocuptimemanagement.data.Result.Success<LoggedInUser>) result).getData();
-            loginResult.setValue(new Result(new LoggedInUserView(data.getDisplayName())));
+            loginResult.setValue(new LoginResult(new LoggedInUserView(data.getDisplayName())));
         } else {
-            loginResult.setValue(new Result(R.string.login_failed));
+            loginResult.setValue(new LoginResult(R.string.login_failed));
         }
     }
 
