@@ -34,12 +34,6 @@ public class RegisterViewModel extends ValidationViewModel {
     }
 
     public void register(Context context, String username, String password) {
-        //System.out.println("{username: " + username + ", password: " + password + "}");
-
-        // When reimplemented as an API, this will need to setup a memory cache and network protocol
-        // https://developer.android.com/training/volley/requestqueue#java
-        // https://developer.android.com/topic/performance/graphics/cache-bitmap
-        //RequestQueue requestQueue = Volley.newRequestQueue(context);
 
         final JSONObject body = new JSONObject();
         try {

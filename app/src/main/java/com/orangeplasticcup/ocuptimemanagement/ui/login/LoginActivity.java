@@ -24,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
+import com.orangeplasticcup.ocuptimemanagement.data.Result;
+import com.orangeplasticcup.ocuptimemanagement.data.model.LoggedInUser;
 import com.orangeplasticcup.ocuptimemanagement.networking.NetworkManager;
 import com.orangeplasticcup.ocuptimemanagement.ui.register.RegisterActivity;
 
@@ -37,8 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         //super.onCreate(savedInstanceState);
         super.onCreate(Bundle.EMPTY); // If the bug returns where Toasts don't show up and the app keeps crashing. Know that this didn't work
         setContentView(R.layout.activity_login);
-        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
+        loginViewModel = new LoginViewModel();
 
         instance = this;
         NetworkManager.getInstance(this.getApplicationContext());
@@ -65,18 +66,20 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
+        loginViewModel.getLoginResult().observe(this, new Observer<Result<LoggedInUser>>() {
             @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null) {
+            public void onChanged(Result<LoggedInUser> loggedInUserResult) {
+                if (loggedInUserResult == null) {
                     return;
                 }
                 loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
+                if (loggedInUserResult instanceof Result.Error) {
+                    Result.Error error = (Result.Error) loggedInUserResult;
+                    showLoginFailed(R.string.login_failed);
                 }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
+                if (loggedInUserResult instanceof Result.Success) {
+                    Result.Success<LoggedInUser> success = (Result.Success<LoggedInUser>) loggedInUserResult;
+                    updateUiWithUser(new LoggedInUserView(success.getData().getDisplayName()));
 
                     //Intent homeActivity = new Intent(this, HomeActivity.class);
                     //startActivity(homeActivity);
@@ -89,14 +92,10 @@ public class LoginActivity extends AppCompatActivity {
 
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                // ignore
-            }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                // ignore
-            }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -106,24 +105,13 @@ public class LoginActivity extends AppCompatActivity {
         };
         usernameEditText.addTextChangedListener(afterTextChangedListener);
         passwordEditText.addTextChangedListener(afterTextChangedListener);
-        /*passwordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
-                }
-                return false;
-            }
-        });*/
 
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                loginViewModel.login(usernameEditText.getText().toString().trim(),
+                        passwordEditText.getText().toString().trim());
             }
         });
 
