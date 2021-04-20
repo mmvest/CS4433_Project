@@ -30,4 +30,5 @@
     <string name="register_bad_format">Registration failure due to bad formatting</string>
     <string name="register_unknown_error">Registration failed due to unknown error</string>
     <string name="register_bad_username">Username is already taken</string>
+    <string name="title_activity_home_screen">HomeScreenActivity</string>
 </resources>
