@@ -29,6 +29,8 @@ import com.orangeplasticcup.ocuptimemanagement.data.model.LoggedInUser;
 import com.orangeplasticcup.ocuptimemanagement.networking.NetworkManager;
 import com.orangeplasticcup.ocuptimemanagement.ui.register.RegisterActivity;
 
+import java.io.IOException;
+
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
@@ -75,7 +77,12 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.GONE);
                 if (loggedInUserResult instanceof Result.Error) {
                     Result.Error error = (Result.Error) loggedInUserResult;
-                    showLoginFailed(R.string.login_failed);
+                    if(error.getError() instanceof IOException) {
+                        showLoginFailed(R.string.user_not_exist);
+                    }
+                    else {
+                        showLoginFailed(R.string.login_failed);
+                    }
                 }
                 if (loggedInUserResult instanceof Result.Success) {
                     Result.Success<LoggedInUser> success = (Result.Success<LoggedInUser>) loggedInUserResult;

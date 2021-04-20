@@ -17,6 +17,8 @@ import com.orangeplasticcup.ocuptimemanagement.ui.ValidationViewModel;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
+
 public class LoginViewModel extends ValidationViewModel {
 
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
@@ -46,17 +48,17 @@ public class LoginViewModel extends ValidationViewModel {
             public void onResponse(String response) {
                 System.out.println("Server Response: " + response);
                 if (response.equals("Login successful")) {
-                    System.out.println("Login successful");
                     loginResult.setValue(new Result.Success<LoggedInUser>(new LoggedInUser(username, username)));
                 }
-                else {
-                    loginResult.setValue(new Result.Error(new Exception("Server error response")));
+                else if(response.equals("Account does not exist or you used an incorrect username and password. Please try again.")) {
+                    loginResult.setValue(new Result.Error(new IOException("Login failed")));
+                } else {
+                    loginResult.setValue(new Result.Error(new Exception("Server error: " + response)));
                 }
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("Error Response: " + error);
                 loginResult.setValue(new Result.Error(new Exception("Server error response")));
             }
         }) {
