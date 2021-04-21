@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.ui.home.ui.main.SectionsPagerAdapter;
 
 public class HomeScreenActivity extends AppCompatActivity {

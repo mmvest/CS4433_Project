@@ -27,6 +27,7 @@ import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.data.Result;
 import com.orangeplasticcup.ocuptimemanagement.data.model.LoggedInUser;
 import com.orangeplasticcup.ocuptimemanagement.networking.NetworkManager;
+import com.orangeplasticcup.ocuptimemanagement.ui.home.HomeScreenActivity;
 import com.orangeplasticcup.ocuptimemanagement.ui.register.RegisterActivity;
 
 import java.io.IOException;
@@ -88,8 +89,8 @@ public class LoginActivity extends AppCompatActivity {
                     Result.Success<LoggedInUser> success = (Result.Success<LoggedInUser>) loggedInUserResult;
                     updateUiWithUser(new LoggedInUserView(success.getData().getDisplayName()));
 
-                    //Intent homeActivity = new Intent(this, HomeActivity.class);
-                    //startActivity(homeActivity);
+                    Intent homeActivity = new Intent(instance, HomeScreenActivity.class);
+                    startActivity(homeActivity);
 
                     //Complete and destroy login activity once successful
                     finish();
