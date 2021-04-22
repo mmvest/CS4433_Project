@@ -28,8 +28,9 @@
     <string name="title_activity_home_screen">HomeScreenActivity</string>
     <!-- Strings related to the home activity page -->
     <string name="title_activity_home">HomeActivity</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
+    <string name="tab_text_1">Overview</string>
+    <string name="tab_text_2">Compare</string>
+    <string name="tax_text_3">Settings</string>
     <string name="title_activity_scrolling">ScrollingActivity</string>
     <string name="action_settings">Settings</string>
 </resources>
