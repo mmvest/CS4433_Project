@@ -88,9 +88,11 @@ public class LoginActivity extends AppCompatActivity {
                 if (loggedInUserResult instanceof Result.Success) {
                     Result.Success<LoggedInUser> success = (Result.Success<LoggedInUser>) loggedInUserResult;
                     updateUiWithUser(new LoggedInUserView(success.getData().getDisplayName()));
-
                     Intent homeActivity = new Intent(instance, HomeScreenActivity.class);
                     startActivity(homeActivity);
+
+                    usernameEditText.setText("");
+                    passwordEditText.setText("");
 
                     //Complete and destroy login activity once successful
                     //finish();
@@ -101,10 +103,8 @@ public class LoginActivity extends AppCompatActivity {
         TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
             @Override
             public void afterTextChanged(Editable s) {
                 loginViewModel.loginDataChanged(usernameEditText.getText().toString(),
