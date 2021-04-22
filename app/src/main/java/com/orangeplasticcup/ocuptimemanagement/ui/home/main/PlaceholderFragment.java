@@ -1,5 +1,6 @@
-package com.orangeplasticcup.ocuptimemanagement.ui.home.ui.main;
+package com.orangeplasticcup.ocuptimemanagement.ui.home.main;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,13 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import lecho.lib.hellocharts.model.PieChartData;
+import lecho.lib.hellocharts.model.SliceValue;
+import lecho.lib.hellocharts.view.PieChartView;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -23,11 +31,14 @@ public class PlaceholderFragment extends Fragment {
 
     private PageViewModel pageViewModel;
 
+    private int index;
+
     public static PlaceholderFragment newInstance(int index) {
         PlaceholderFragment fragment = new PlaceholderFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);
+        index = index;
         return fragment;
     }
 
@@ -47,12 +58,18 @@ public class PlaceholderFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_home_screen, container, false);
         final TextView textView = root.findViewById(R.id.section_label);
-        pageViewModel.getText().observe(this, new Observer<String>() {
+        pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
             }
         });
         return root;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        PieChartView pieChartView = getView().findViewById(R.id.chart);
+        pieChartView.setPieChartData(PieChartData.generateDummyData());
     }
 }

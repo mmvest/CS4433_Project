@@ -9,12 +9,12 @@ import com.google.android.material.tabs.TabLayout;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
-import com.orangeplasticcup.ocuptimemanagement.ui.home.ui.main.SectionsPagerAdapter;
+import com.orangeplasticcup.ocuptimemanagement.ui.home.main.SectionsPagerAdapter;
+
+import lecho.lib.hellocharts.view.PieChartView;
 
 public class HomeScreenActivity extends AppCompatActivity {
 

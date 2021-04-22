@@ -1,4 +1,4 @@
-package com.orangeplasticcup.ocuptimemanagement.ui.home.ui.main;
+package com.orangeplasticcup.ocuptimemanagement.ui.home.main;
 
 import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
