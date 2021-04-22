@@ -1,5 +1,6 @@
 package com.orangeplasticcup.ocuptimemanagement.ui.home.main;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,7 +15,11 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import lecho.lib.hellocharts.model.PieChartData;
+import lecho.lib.hellocharts.model.SliceValue;
 import lecho.lib.hellocharts.view.PieChartView;
 
 /**
@@ -36,7 +41,7 @@ public class OverviewFragment extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        super.onCreate(Bundle.EMPTY);
         pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
         int index = 1;
         if (getArguments() != null) {
@@ -49,20 +54,30 @@ public class OverviewFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_overview_screen, container, false);
-        final TextView textView = root.findViewById(R.id.section_label);
+        /*final TextView textView = root.findViewById(R.id.section_label);
         pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
             }
-        });
+        });*/
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         PieChartView pieChartView = getView().findViewById(R.id.chart);
-        pieChartView.setPieChartData(PieChartData.generateDummyData());
+        List<SliceValue> pieData = new ArrayList<>();
+        pieData.add(new SliceValue(15, Color.BLUE).setLabel("Q1: $10"));
+        pieData.add(new SliceValue(25, Color.GRAY).setLabel("Q2: $4"));
+        pieData.add(new SliceValue(10, Color.RED).setLabel("Q3: $18"));
+        pieData.add(new SliceValue(60, Color.MAGENTA).setLabel("Q4: $28"));
+
+        PieChartData pieChartData = new PieChartData(pieData);
+        pieChartData.setHasLabels(true).setValueLabelTextSize(14);
+        pieChartData.setHasCenterCircle(true).setCenterText1("Sales in million").setCenterText1FontSize(20).setCenterText1Color(Color.parseColor("#0097A7"));
+
+        pieChartView.setPieChartData(pieChartData);
         pieChartView.setChartRotationEnabled(false);
     }
 }
