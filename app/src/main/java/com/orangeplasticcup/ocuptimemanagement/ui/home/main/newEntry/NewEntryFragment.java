@@ -43,10 +43,10 @@ public class NewEntryFragment extends Fragment {
             "Hobby",
             "Homework",
             "Other",
-            "Practice (Sports, Music, Etc...)",
+            "Practice (Sports, Music, Etc....)",
             "Recreation",
             "School",
-            "Streaming (Netflix, Hulu, Youtube, Etc...)",
+            "Streaming (Netflix, Hulu, Youtube, etc...)",
             "Studying",
             "Watching TV",
             "With Friends",
@@ -91,6 +91,7 @@ public class NewEntryFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
+        TextView noteTextView = view.findViewById(R.id.note);
         TextView categoryTextView = view.findViewById(R.id.category);
         TextView startTimeDate = view.findViewById(R.id.startTimeDate);
         TextView startTimeTime = view.findViewById(R.id.startTimeTime);
@@ -169,7 +170,17 @@ public class NewEntryFragment extends Fragment {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                selectedTextView.setText(year + "-" + month + "-" + dayOfMonth);
+                String monthString = String.valueOf(month);
+                if(month < 10) {
+                    monthString = "0" + month;
+                }
+
+                String dayString = String.valueOf(dayOfMonth);
+                if (dayOfMonth < 10) {
+                    dayString = "0" + dayOfMonth;
+                }
+
+                selectedTextView.setText(year + "-" + monthString + "-" + dayString);
 
                 pageViewModel.entryDataChanged(
                         instance,
@@ -198,7 +209,6 @@ public class NewEntryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 selectedTextView = (TextView) v;
-                System.out.println("Selected view set to: " + selectedTextView.getAccessibilityClassName());
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
 
                 DatePickerDialog pickerDialog = new DatePickerDialog(view.getContext(), dateSetListener,
@@ -230,7 +240,12 @@ public class NewEntryFragment extends Fragment {
         createEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                pageViewModel.createEntry(
+                        instance.getContext(),
+                        noteTextView.getText().toString(),
+                        categoryTextView.getText().toString(),
+                        startTimeDate.getText().toString() + " " + startTimeTime.getText().toString(),
+                        endTimeDate.getText().toString() + " " + endTimeTime.getText().toString());
             }
         });
     }

@@ -49,4 +49,7 @@
     <string name="end_time_not_set">ENd time is not set</string>
     <string name="end_date_error">End date is after start date</string>
     <string name="end_time_error">End time is after start time</string>
+    <string name="create_entry_failed">Failed to create entry</string>
+    <string name="create_entry_login_error">Failed to create entry due to a login error</string>
+    <string name="create_entry_unknown_error">Create entry failed due an unknown error</string>
 </resources>

@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -18,6 +19,7 @@ import com.orangeplasticcup.ocuptimemanagement.ui.ValidationViewModel;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Map;
 
 public class LoginViewModel extends ValidationViewModel {
 
@@ -43,12 +45,14 @@ public class LoginViewModel extends ValidationViewModel {
         }
         catch(Exception ignore) {}
 
+        LoggedInUser user = LoggedInUser.getInstance();
         StringRequest loginPOSTRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                System.out.println("Server Response: " + response);
+                System.out.println("Login Server Response: " + response);
                 if (response.equals("Login successful")) {
-                    loginResult.setValue(new Result.Success<LoggedInUser>(new LoggedInUser(username, username)));
+                    user.bindUserID(username);
+                    loginResult.setValue(new Result.Success<LoggedInUser>(user));
                 }
                 else if(response.equals("Account does not exist or you used an incorrect username and password. Please try again.")) {
                     loginResult.setValue(new Result.Error(new IOException("Login failed")));
@@ -65,6 +69,12 @@ public class LoginViewModel extends ValidationViewModel {
             @Override
             public byte[] getBody() throws AuthFailureError {
                 return body.toString().getBytes();
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                user.bindSessionToken(response.headers.get("Set-Cookie"));
+                return super.parseNetworkResponse(response);
             }
         };
 

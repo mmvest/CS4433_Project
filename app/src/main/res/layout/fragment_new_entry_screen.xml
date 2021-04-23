@@ -16,7 +16,7 @@
             <EditText
                 android:id="@+id/note"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="45dp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text="@string/note_text" />
@@ -24,51 +24,51 @@
             <TextView
                 android:id="@+id/category"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:text="@string/category_text"
                 android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/startTimeText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:text="@string/start_time_text"
                 android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/startTimeDate"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:text="@string/start_date"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/startTimeTime"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:text="@string/start_time"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/endTimeText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:text="@string/end_time_text"
                 android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/endTimeDate"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:text="@string/end_date"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/endTimeTime"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
                 android:text="@string/end_time"
-                android:textSize="18dp" />
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/createEntryButton"
