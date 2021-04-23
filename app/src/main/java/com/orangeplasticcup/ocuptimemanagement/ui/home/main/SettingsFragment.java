@@ -22,8 +22,8 @@ public class SettingsFragment extends Fragment {
 
     private PageViewModel pageViewModel;
 
-    public static OverviewFragment newInstance(int index) {
-        OverviewFragment fragment = new OverviewFragment();
+    public static SettingsFragment newInstance(int index) {
+        SettingsFragment fragment = new SettingsFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);

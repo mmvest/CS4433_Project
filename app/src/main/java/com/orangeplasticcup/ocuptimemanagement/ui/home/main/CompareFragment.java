@@ -22,8 +22,8 @@ public class CompareFragment extends Fragment {
 
     private PageViewModel pageViewModel;
 
-    public static OverviewFragment newInstance(int index) {
-        OverviewFragment fragment = new OverviewFragment();
+    public static CompareFragment newInstance(int index) {
+        CompareFragment fragment = new CompareFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(ARG_SECTION_NUMBER, index);
         fragment.setArguments(bundle);

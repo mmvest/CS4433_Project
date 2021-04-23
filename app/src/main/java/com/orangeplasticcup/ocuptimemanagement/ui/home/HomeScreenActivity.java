@@ -25,7 +25,6 @@ import com.orangeplasticcup.ocuptimemanagement.ui.home.main.SectionsPagerAdapter
 
 public class HomeScreenActivity extends AppCompatActivity {
 
-    private static final String NEW_ENTRY_URL = "http://66.103.121.23/api/create_entry.php";
     private static final String LOGOUT_URL = "http://66.103.121.23/api/logout.php";
 
     private static HomeScreenActivity instance;
