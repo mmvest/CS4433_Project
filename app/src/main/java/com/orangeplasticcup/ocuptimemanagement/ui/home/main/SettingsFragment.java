@@ -57,8 +57,8 @@ public class SettingsFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        PieChartView pieChartView = getView().findViewById(R.id.chart);
+        /*PieChartView pieChartView = getView().findViewById(R.id.chart);
         pieChartView.setPieChartData(PieChartData.generateDummyData());
-        pieChartView.setChartRotationEnabled(false);
+        pieChartView.setChartRotationEnabled(false);*/
     }
 }

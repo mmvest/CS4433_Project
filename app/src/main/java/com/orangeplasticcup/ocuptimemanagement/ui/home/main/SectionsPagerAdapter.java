@@ -17,7 +17,7 @@ import com.orangeplasticcup.ocuptimemanagement.R;
 public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @StringRes
-    private static final int[] TAB_TITLES = new int[]{R.string.tab_text_1, R.string.tab_text_2, R.string.tax_text_3};
+    private static final int[] TAB_TITLES = new int[]{R.string.tab_overview, R.string.tab_new_entry, R.string.tab_compare, R.string.tax_settings};
     private final Context mContext;
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {
@@ -40,6 +40,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 }
