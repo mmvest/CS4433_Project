@@ -23,8 +23,8 @@ import org.json.JSONObject;
 
 public class RegisterViewModel extends ValidationViewModel {
 
-    private MutableLiveData<RegisterFormState> registerFormState = new MutableLiveData<>();
-    private MutableLiveData<Result<String>> registerResult = new MutableLiveData<>();
+    private final MutableLiveData<RegisterFormState> registerFormState = new MutableLiveData<>();
+    private final MutableLiveData<Result<String>> registerResult = new MutableLiveData<>();
 
     private static final String URL = "http://66.103.121.23/api/register.php";
 

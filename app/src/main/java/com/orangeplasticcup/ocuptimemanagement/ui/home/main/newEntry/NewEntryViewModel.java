@@ -25,8 +25,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class NewEntryViewModel extends ViewModel {
-    private MutableLiveData<NewEntryFormState> entryFormState = new MutableLiveData<>();
-    private MutableLiveData<Result<String>> createEntryResult = new MutableLiveData<>();
+    private final MutableLiveData<NewEntryFormState> entryFormState = new MutableLiveData<>();
+    private final MutableLiveData<Result<String>> createEntryResult = new MutableLiveData<>();
 
     private static final String NEW_ENTRY_URL = "http://66.103.121.23/api/create_entry.php";
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");

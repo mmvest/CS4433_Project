@@ -23,8 +23,8 @@ import java.util.Map;
 
 public class LoginViewModel extends ValidationViewModel {
 
-    private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
-    private MutableLiveData<Result<LoggedInUser>> loginResult = new MutableLiveData<>();
+    private final MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
+    private final MutableLiveData<Result<LoggedInUser>> loginResult = new MutableLiveData<>();
 
     private static final String URL = "http://66.103.121.23/api/login.php";
 

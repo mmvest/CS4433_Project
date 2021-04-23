@@ -76,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }
                 if (loginResult instanceof Result.Success) {
                     Result.Success<String> loginSuccess = (Result.Success<String>) loginResult;
-                    Toast.makeText(getApplicationContext(), loginSuccess.getData().toString(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), loginSuccess.getData(), Toast.LENGTH_LONG).show();
 
                     finish();
                 }
