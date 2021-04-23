@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
+import com.orangeplasticcup.ocuptimemanagement.ui.home.main.newEntry.NewEntryFragment;
 
 /**
  * A [FragmentPagerAdapter] that returns a fragment corresponding to

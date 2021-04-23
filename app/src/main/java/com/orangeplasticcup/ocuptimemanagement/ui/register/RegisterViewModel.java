@@ -40,7 +40,10 @@ public class RegisterViewModel extends ValidationViewModel {
             body.put("username", username);
             body.put("password", password);
         }
-        catch(Exception ignored) {}
+        catch(Exception ignored) {
+            registerResult.setValue(new Result.Error(new Exception(context.getString(R.string.register_unknown_error))));
+            return;
+        }
 
         StringRequest registerPOSTRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override

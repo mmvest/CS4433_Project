@@ -1,4 +1,4 @@
-package com.orangeplasticcup.ocuptimemanagement.ui.home.main;
+package com.orangeplasticcup.ocuptimemanagement.ui.home.main.newEntry;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -16,7 +16,7 @@ import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.Observer;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
 
@@ -25,7 +25,6 @@ import java.util.TimeZone;
 
 public class NewEntryFragment extends Fragment {
     private static final String ARG_SECTION_NUMBER = "section_number";
-    private static final String NEW_ENTRY_URL = "http://66.103.121.23/api/create_entry.php";
     private NewEntryViewModel pageViewModel;
     private TextView selectedTextView;
 
@@ -95,6 +94,15 @@ public class NewEntryFragment extends Fragment {
         TextView endTimeTime = view.findViewById(R.id.endTimeTime);
         Button createEntryButton = view.findViewById(R.id.createEntryButton);
 
+        pageViewModel.getEntryFormState().observe(getViewLifecycleOwner(), new Observer<NewEntryFormState>() {
+            @Override
+            public void onChanged(NewEntryFormState newEntryFormState) {
+                if(newEntryFormState == null) return;
+
+
+            }
+        });
+
         categoryTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,7 +167,7 @@ public class NewEntryFragment extends Fragment {
         createEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
             }
         });
     }
