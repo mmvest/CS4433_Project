@@ -5,6 +5,8 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +22,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
+import com.orangeplasticcup.ocuptimemanagement.data.Result;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -99,7 +103,50 @@ public class NewEntryFragment extends Fragment {
             public void onChanged(NewEntryFormState newEntryFormState) {
                 if(newEntryFormState == null) return;
 
+                createEntryButton.setEnabled(newEntryFormState.isDataValid());
+                if(newEntryFormState.getStartTimeDateError() != null) {
+                    startTimeDate.setError(getString(newEntryFormState.getStartTimeDateError()));
+                }
+                else {
+                    startTimeDate.setError(null);
+                }
 
+                if(newEntryFormState.getStartTimeTimeError() != null) {
+                    startTimeTime.setError(getString(newEntryFormState.getStartTimeTimeError()));
+                }
+                else {
+                    startTimeTime.setError(null);
+                }
+
+                if(newEntryFormState.getEndTimeDateError() != null) {
+                    endTimeDate.setError(getString(newEntryFormState.getEndTimeDateError()));
+                }
+                else {
+                    endTimeDate.setError(null);
+                }
+
+                if(newEntryFormState.getEndTimeTimeError() != null) {
+                    endTimeTime.setError(getString(newEntryFormState.getEndTimeTimeError()));
+                }
+                else {
+                    endTimeTime.setError(null);
+                }
+            }
+        });
+
+        pageViewModel.getCreateEntryResult().observe(getViewLifecycleOwner(), new Observer<Result<String>>() {
+            @Override
+            public void onChanged(Result<String> stringResult) {
+                if (stringResult == null) return;
+
+                if(stringResult instanceof Result.Error) {
+                    Result.Error entryError = (Result.Error) stringResult;
+                    Toast.makeText(getContext(), entryError.getError().getMessage(), Toast.LENGTH_LONG).show();
+                }
+                if(stringResult instanceof Result.Success) {
+                    Result.Success<String> entrySuccess = (Result.Success<String>) stringResult;
+                    Toast.makeText(getContext(), entrySuccess.getData(), Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -123,6 +170,13 @@ public class NewEntryFragment extends Fragment {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
                 selectedTextView.setText(year + "-" + month + "-" + dayOfMonth);
+
+                pageViewModel.entryDataChanged(
+                        instance,
+                        startTimeDate.getText().toString(),
+                        startTimeTime.getText().toString(),
+                        endTimeDate.getText().toString(),
+                        endTimeTime.getText().toString());
             }
         };
 
@@ -130,6 +184,13 @@ public class NewEntryFragment extends Fragment {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 selectedTextView.setText(hourOfDay + ":" + minute + ":00");
+
+                pageViewModel.entryDataChanged(
+                        instance,
+                        startTimeDate.getText().toString(),
+                        startTimeTime.getText().toString(),
+                        endTimeDate.getText().toString(),
+                        endTimeTime.getText().toString());
             }
         };
 
@@ -137,6 +198,7 @@ public class NewEntryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 selectedTextView = (TextView) v;
+                System.out.println("Selected view set to: " + selectedTextView.getAccessibilityClassName());
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
 
                 DatePickerDialog pickerDialog = new DatePickerDialog(view.getContext(), dateSetListener,
@@ -150,6 +212,7 @@ public class NewEntryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 selectedTextView = (TextView) v;
+                System.out.println("Selected view set to: " + selectedTextView.getAccessibilityClassName());
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
 
                 TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), timeSetListener,

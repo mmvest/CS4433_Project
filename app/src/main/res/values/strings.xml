@@ -39,6 +39,10 @@
     <string name="start_time_text">Start Time</string>
     <string name="end_time_text">End Time</string>
     <string name="create_entry">Create Entry</string>
+    <string name="start_date">Start Date</string>
+    <string name="start_time">Start Time</string>
+    <string name="end_date">End Date</string>
+    <string name="end_time">End Time</string>
     <string name="start_date_not_set">Start date is not set</string>
     <string name="start_time_not_set">Start time is not set</string>
     <string name="end_date_not_set">End date is not set</string>
