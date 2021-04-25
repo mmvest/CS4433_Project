@@ -101,6 +101,42 @@
             return false;
         }
 
+        public function retrieveOverview()
+        {
+            //create the base query
+            $query = "
+            SELECT e1.username, 
+            e1.category_name, 
+            SUM(TIME_TO_SEC(timediff(end_date_time, start_date_time))) AS category_time, 
+            (SUM(TIME_TO_SEC(timediff(e1.end_date_time, e1.start_date_time)))/e2.total_time * 100) AS percent_time 
+            FROM entry e1 
+            INNER JOIN
+            (
+                SELECT e2.username, SUM(TIME_TO_SEC(timediff(end_date_time, start_date_time))) as total_time
+                FROM entry e2
+                GROUP BY username
+            ) AS e2
+            ON e1.username = e2.username
+            WHERE e1.username = :username
+            GROUP BY e1.category_name";
+
+            //prepare the query.
+            $stmt = $this->conn->prepare($query);
+
+            //strip tags to avoid XSS
+            $this->username = htmlspecialchars(strip_tags($this->username));
+
+            //bind username paramater
+            $stmt->bindParam(":username", $this->username);
+            
+            //if successful, return the array of returned values. Else, return false.
+            if($stmt->execute())
+            {
+                return $stmt;
+            }
+            return false;
+        }
+
         //delete entry based on entry_id
         public function deleteEntry()
         {

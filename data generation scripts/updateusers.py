@@ -41,12 +41,12 @@ for username in usernames:
     #determine creation time
     timeOfCreation = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
-    #insert into database
-    query = "INSERT INTO user (username, salt, password, created) VALUES (%s, %s, %s, %s)"
-    values = (username, salt, password, timeOfCreation)
+    #update user passwords in database
+    query = "UPDATE user SET salt = %s, password=%s WHERE username = %s"
+    values = (salt, password, username)
     mycursor.execute(query, values)
 
     mydb.commit()
 
-    print(mycursor.rowcount, "records inserted.")
+    print(mycursor.rowcount, "records updated.")
     i += 1
