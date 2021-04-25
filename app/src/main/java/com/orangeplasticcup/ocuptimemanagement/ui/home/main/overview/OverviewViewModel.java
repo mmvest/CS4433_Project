@@ -47,7 +47,13 @@ public class OverviewViewModel extends ViewModel {
                     for(int i = 0; i < count; i++) {
                         JSONObject entryObject = entries.getJSONObject(i);
                         String categoryName = entryObject.getString("category_name");
+                        String categoryTime = entryObject.getString("category_time");
+                        String categoryPercentTime = entryObject.getString("percent_time");
+
+                        newEntries.add(new GraphEntry(categoryName, Integer.parseInt(categoryTime), Float.parseFloat(categoryPercentTime)));
                     }
+
+                    graphData.setValue(newEntries);
                 }
                 catch(Exception e) {
                     e.printStackTrace();
