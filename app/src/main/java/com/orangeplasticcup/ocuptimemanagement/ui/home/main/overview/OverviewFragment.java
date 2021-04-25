@@ -39,13 +39,13 @@ public class OverviewFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View root = inflater.inflate(R.layout.fragment_overview_screen, container, false);
         return root;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        overviewViewModel.updateOverviewGraph(getContext());
         PieChartView pieChartView = getView().findViewById(R.id.chart);
         List<SliceValue> pieData = new ArrayList<>();
         pieData.add(new SliceValue(15, Color.BLUE).setLabel("Q1: $10"));

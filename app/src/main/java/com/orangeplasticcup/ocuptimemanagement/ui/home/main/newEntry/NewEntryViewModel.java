@@ -47,6 +47,8 @@ public class NewEntryViewModel extends ViewModel {
             createEntryResult.setValue(new Result.Error(new Exception("")));
         }
 
+        System.out.println(body.toString());
+
         StringRequest entryPOSTRequest = new StringRequest(Request.Method.POST, NEW_ENTRY_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
