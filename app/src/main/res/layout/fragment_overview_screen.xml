@@ -14,6 +14,7 @@
         android:fillViewport="true">
 
         <LinearLayout
+            android:id="@+id/overviewLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -23,6 +24,11 @@
                 android:layout_width="270dp"
                 android:layout_height="270dp"
                 android:layout_gravity="center" />
+
+            <TextView
+                android:id="@+id/spacerTextView"
+                android:layout_width="match_parent"
+                android:layout_height="50dp" />
 
         </LinearLayout>
     </ScrollView>

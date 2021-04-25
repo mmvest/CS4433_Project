@@ -24,10 +24,10 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     private static final int[] TAB_TITLES = new int[]{R.string.tab_overview, R.string.tab_new_entry, R.string.tab_compare, R.string.tax_settings};
     private final Context mContext;
 
-    private final OverviewFragment overviewFragment = OverviewFragment.newInstance(0);
-    private final NewEntryFragment newEntryFragment = NewEntryFragment.newInstance(1);
-    private final CompareFragment compareFragment = CompareFragment.newInstance(2);
-    private final SettingsFragment settingsFragment = SettingsFragment.newInstance(3);
+    private final OverviewFragment overviewFragment = OverviewFragment.newInstance();
+    private final NewEntryFragment newEntryFragment = NewEntryFragment.newInstance();
+    private final CompareFragment compareFragment = CompareFragment.newInstance();
+    private final SettingsFragment settingsFragment = SettingsFragment.newInstance();
 
 
     public SectionsPagerAdapter(Context context, FragmentManager fm) {

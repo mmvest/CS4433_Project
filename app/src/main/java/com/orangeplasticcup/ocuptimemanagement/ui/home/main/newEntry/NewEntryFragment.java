@@ -5,8 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +26,7 @@ import java.util.Calendar;
 import java.util.TimeZone;
 
 public class NewEntryFragment extends Fragment {
-    private static final String ARG_SECTION_NUMBER = "section_number";
-    private NewEntryViewModel pageViewModel;
+    private NewEntryViewModel newEntryViewModel;
     private TextView selectedTextView;
 
     private static NewEntryFragment instance;
@@ -53,11 +50,8 @@ public class NewEntryFragment extends Fragment {
             "Work"
     };
 
-    public static NewEntryFragment newInstance(int index) {
+    public static NewEntryFragment newInstance() {
         NewEntryFragment fragment = new NewEntryFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(ARG_SECTION_NUMBER, index);
-        fragment.setArguments(bundle);
         return fragment;
     }
 
@@ -65,26 +59,13 @@ public class NewEntryFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(Bundle.EMPTY);
         instance = this;
-        pageViewModel = new NewEntryViewModel();
-
-        /*int index = 1;
-        if (getArguments() != null) {
-            index = getArguments().getInt(ARG_SECTION_NUMBER);
-        }
-        pageViewModel.setIndex(index);*/
+        newEntryViewModel = new NewEntryViewModel();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_new_entry_screen, container, false);
-        /*final TextView textView = root.findViewById(R.id.section_label);
-        pageViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });*/
         return root;
     }
 
@@ -99,7 +80,7 @@ public class NewEntryFragment extends Fragment {
         TextView endTimeTime = view.findViewById(R.id.endTimeTime);
         Button createEntryButton = view.findViewById(R.id.createEntryButton);
 
-        pageViewModel.getEntryFormState().observe(getViewLifecycleOwner(), new Observer<NewEntryFormState>() {
+        newEntryViewModel.getEntryFormState().observe(getViewLifecycleOwner(), new Observer<NewEntryFormState>() {
             @Override
             public void onChanged(NewEntryFormState newEntryFormState) {
                 if(newEntryFormState == null) return;
@@ -135,7 +116,7 @@ public class NewEntryFragment extends Fragment {
             }
         });
 
-        pageViewModel.getCreateEntryResult().observe(getViewLifecycleOwner(), new Observer<Result<String>>() {
+        newEntryViewModel.getCreateEntryResult().observe(getViewLifecycleOwner(), new Observer<Result<String>>() {
             @Override
             public void onChanged(Result<String> stringResult) {
                 if (stringResult == null) return;
@@ -182,7 +163,7 @@ public class NewEntryFragment extends Fragment {
 
                 selectedTextView.setText(year + "-" + monthString + "-" + dayString);
 
-                pageViewModel.entryDataChanged(
+                newEntryViewModel.entryDataChanged(
                         instance,
                         startTimeDate.getText().toString(),
                         startTimeTime.getText().toString(),
@@ -196,7 +177,7 @@ public class NewEntryFragment extends Fragment {
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                 selectedTextView.setText(hourOfDay + ":" + minute + ":00");
 
-                pageViewModel.entryDataChanged(
+                newEntryViewModel.entryDataChanged(
                         instance,
                         startTimeDate.getText().toString(),
                         startTimeTime.getText().toString(),
@@ -240,7 +221,7 @@ public class NewEntryFragment extends Fragment {
         createEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pageViewModel.createEntry(
+                newEntryViewModel.createEntry(
                         instance.getContext(),
                         noteTextView.getText().toString(),
                         categoryTextView.getText().toString(),
