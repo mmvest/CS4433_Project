@@ -175,7 +175,17 @@ public class NewEntryFragment extends Fragment {
         TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                selectedTextView.setText(hourOfDay + ":" + minute + ":00");
+                String hourString = String.valueOf(hourOfDay);
+                if(hourOfDay < 10) {
+                    hourString = "0" + hourOfDay;
+                }
+
+                String minuteString = String.valueOf(minute);
+                if(minute < 10) {
+                    minuteString = "0" + minute;
+                }
+
+                selectedTextView.setText(hourString + ":" + minuteString + ":00");
 
                 newEntryViewModel.entryDataChanged(
                         instance,
@@ -203,7 +213,6 @@ public class NewEntryFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 selectedTextView = (TextView) v;
-                System.out.println("Selected view set to: " + selectedTextView.getAccessibilityClassName());
                 Calendar calendar = Calendar.getInstance(TimeZone.getDefault());
 
                 TimePickerDialog timePickerDialog = new TimePickerDialog(view.getContext(), timeSetListener,
