@@ -21,6 +21,7 @@ import androidx.lifecycle.Observer;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.data.Result;
+import com.orangeplasticcup.ocuptimemanagement.ui.home.main.overview.OverviewViewModel;
 
 import java.util.Calendar;
 import java.util.TimeZone;
@@ -128,6 +129,7 @@ public class NewEntryFragment extends Fragment {
                 if(stringResult instanceof Result.Success) {
                     Result.Success<String> entrySuccess = (Result.Success<String>) stringResult;
                     Toast.makeText(getContext(), entrySuccess.getData(), Toast.LENGTH_LONG).show();
+                    OverviewViewModel.getInstance().updateOverviewGraph(getContext().getApplicationContext());
                 }
             }
         });

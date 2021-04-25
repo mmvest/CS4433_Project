@@ -28,8 +28,16 @@ import java.util.Map;
 
 public class OverviewViewModel extends ViewModel {
     private static final String OVERVIEW_URL = "http://66.103.121.23/api/overview.php";
-
     private MutableLiveData<List<GraphEntry>> graphData = new MutableLiveData<>();
+    private static OverviewViewModel instance;
+
+    public OverviewViewModel() {
+        instance = this;
+    }
+
+    public static OverviewViewModel getInstance() {
+        return instance;
+    }
 
     public LiveData<List<GraphEntry>> getGraphData() { return graphData; }
 
