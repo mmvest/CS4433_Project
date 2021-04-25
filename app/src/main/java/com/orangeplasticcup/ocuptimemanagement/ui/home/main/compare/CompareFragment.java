@@ -29,9 +29,7 @@ public class CompareFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View root = inflater.inflate(R.layout.fragment_compare_screen, container, false);
-        return root;
+        return inflater.inflate(R.layout.fragment_compare_screen, container, false);
     }
 
     @Override

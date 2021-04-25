@@ -7,7 +7,7 @@ public class ValidationViewModel extends ViewModel {
         return username != null && !username.isEmpty() && !username.contains(" ");
     }
 
-    protected boolean isPasswordValid(String password) {
+    public static boolean isPasswordValid(String password) {
         return password != null && !password.contains(" ") && password.length() >= 8;
     }
 }

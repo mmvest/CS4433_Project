@@ -11,12 +11,6 @@ public class LoggedInUser {
 
     private LoggedInUser() {}
 
-    public LoggedInUser(String userId, String sessionToken) {
-        this.userId = userId;
-        this.sessionToken = sessionToken;
-        loggedInUser = this;
-    }
-
     public String getUserId() {
         return userId;
     }
@@ -25,22 +19,11 @@ public class LoggedInUser {
     }
 
     public void bindUserID(String userID) {
-        if (userId == null) {
-            this.userId = userID;
-        }
-        else {
-            throw new RuntimeException("Rebinding of UserID");
-        }
+        this.userId = userID;
     }
 
     public void bindSessionToken(String sessionToken) {
         this.sessionToken = sessionToken;
-        if (sessionToken == null) {
-            //this.sessionToken = sessionToken;
-        }
-        else {
-            //throw new RuntimeException("Rebinding of SessionToken");
-        }
     }
 
     public static LoggedInUser getInstance() {

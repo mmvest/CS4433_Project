@@ -19,37 +19,36 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.data.Result;
+import com.orangeplasticcup.ocuptimemanagement.data.model.LoggedInUser;
+import com.orangeplasticcup.ocuptimemanagement.networking.NetworkManager;
 import com.orangeplasticcup.ocuptimemanagement.ui.home.main.overview.OverviewViewModel;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class NewEntryFragment extends Fragment {
+    private static final String RETRIEVE_CATEGORY_URL = "http://66.103.121.23/api/retrieve_category.php";
+
     private NewEntryViewModel newEntryViewModel;
     private TextView selectedTextView;
 
     private static NewEntryFragment instance;
-
-    // This is horrible, this should instead be a network call to the database to get all the categories
-    private static final String[] CATEGORY_NAMES = new String[] {
-            "Cleaning",
-            "Eating",
-            "Family Time",
-            "Getting Ready",
-            "Hobby",
-            "Homework",
-            "Other",
-            "Practice (Sports, Music, Etc....)",
-            "Recreation",
-            "School",
-            "Streaming (Netflix, Hulu, Youtube, etc...)",
-            "Studying",
-            "Watching TV",
-            "With Friends",
-            "Work"
-    };
+    private static String[] categoryNames = new String[] { "This is a big time error" };
 
     public static NewEntryFragment newInstance() {
         NewEntryFragment fragment = new NewEntryFragment();
@@ -65,13 +64,53 @@ public class NewEntryFragment extends Fragment {
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        View root = inflater.inflate(R.layout.fragment_new_entry_screen, container, false);
-        return root;
+        return inflater.inflate(R.layout.fragment_new_entry_screen, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        StringRequest retrieveCategoriesRequest = new StringRequest(Request.Method.POST, RETRIEVE_CATEGORY_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject responseObject = new JSONObject(response);
+                    JSONArray entries = responseObject.getJSONArray("body");
+
+                    int count = responseObject.getInt("entryCount");
+                    String[] categories = new String[count];
+
+                    for(int i = 0; i < count; i++) {
+                        JSONObject entryObject = entries.getJSONObject(i);
+                        String categoryName = entryObject.getString("name");
+                        categories[i] = categoryName;
+                    }
+
+                    categoryNames = categories;
+                }
+                catch(Exception ignored) {}
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("Server Response: " + error);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> headers = new HashMap<>();
+                headers.put("Cookie", LoggedInUser.getInstance().getSessionToken());
+                return headers;
+            }
+        };
+
+        retrieveCategoriesRequest.setRetryPolicy(new DefaultRetryPolicy(
+                150,
+                5,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
+
+        NetworkManager.getInstance(view.getContext().getApplicationContext()).addToRequestQueue(retrieveCategoriesRequest);
+
 
         TextView noteTextView = view.findViewById(R.id.note);
         TextView categoryTextView = view.findViewById(R.id.category);
@@ -139,10 +178,10 @@ public class NewEntryFragment extends Fragment {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(instance.getContext());
                 builder.setTitle("Select category");
-                builder.setItems(CATEGORY_NAMES, new DialogInterface.OnClickListener() {
+                builder.setItems(categoryNames, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        categoryTextView.setText(CATEGORY_NAMES[which]);
+                        categoryTextView.setText(categoryNames[which]);
                     }
                 });
 

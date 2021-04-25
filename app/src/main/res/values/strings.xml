@@ -52,4 +52,7 @@
     <string name="create_entry_failed">Failed to create entry</string>
     <string name="create_entry_login_error">Failed to create entry due to a login error</string>
     <string name="create_entry_unknown_error">Create entry failed due an unknown error</string>
+    <!-- Strings for settings -->
+    <string name="action_reset_password">Reset Password</string>
+    <string name="action_delete_user">Delete Account</string>
 </resources>

@@ -45,7 +45,8 @@ public class OverviewViewModel extends ViewModel {
         StringRequest overviewPOSTRequest = new StringRequest(Request.Method.POST, OVERVIEW_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                System.out.println("Server response: " + response);
+                if(response.equals("This user has no entries.")) return;
+
                 try {
                     List<GraphEntry> newEntries = new ArrayList<>();
                     JSONObject responseObject = new JSONObject(response);

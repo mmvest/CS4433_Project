@@ -71,4 +71,8 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
         });
     }
+
+    public static void finishActivity() {
+        instance.finish();
+    }
 }

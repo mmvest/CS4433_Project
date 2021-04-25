@@ -70,7 +70,7 @@ public class NewEntryViewModel extends ViewModel {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println("Error Response: " + error);
-                createEntryResult.setValue(new Result.Error(new Exception(context.getString(R.string.create_entry_unknown_error))));
+                createEntryResult.setValue(new Result.Error(new Exception("Server error. Please try again")));
             }
         }) {
             @Override
