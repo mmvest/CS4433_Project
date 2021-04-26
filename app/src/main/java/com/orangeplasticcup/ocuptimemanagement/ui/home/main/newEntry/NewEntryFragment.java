@@ -206,7 +206,7 @@ public class NewEntryFragment extends Fragment {
                 selectedTextView.setText(year + "-" + monthString + "-" + dayString);
 
                 newEntryViewModel.entryDataChanged(
-                        instance,
+                        getContext(),
                         startTimeDate.getText().toString(),
                         startTimeTime.getText().toString(),
                         endTimeDate.getText().toString(),
@@ -230,7 +230,7 @@ public class NewEntryFragment extends Fragment {
                 selectedTextView.setText(hourString + ":" + minuteString + ":00");
 
                 newEntryViewModel.entryDataChanged(
-                        instance,
+                        getContext(),
                         startTimeDate.getText().toString(),
                         startTimeTime.getText().toString(),
                         endTimeDate.getText().toString(),

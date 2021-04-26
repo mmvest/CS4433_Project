@@ -1,6 +1,7 @@
 package com.orangeplasticcup.ocuptimemanagement.ui.home.main;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
 
@@ -25,21 +26,21 @@ public class EntryValidationViewModel extends ViewModel {
     public LiveData<NewEntryFormState> getEntryFormState() { return entryFormState; }
     public LiveData<Result<String>> getCreateEntryResult() { return createEntryResult; }
 
-    public void entryDataChanged(Fragment dummyFragment, String startDate, String startTime, String endDate, String endTime) {
+    public void entryDataChanged(Context context, String startDate, String startTime, String endDate, String endTime) {
         try{
-            if(startDate == null || startDate.equals(dummyFragment.getString(R.string.start_date))) {
+            if(startDate == null || startDate.equals(context.getString(R.string.start_date))) {
                 System.out.println("Start Date Error");
                 entryFormState.setValue(new NewEntryFormState(R.string.start_date_not_set, null, null, null));
             }
-            else if (startTime == null || startTime.equals(dummyFragment.getString(R.string.start_time))) {
+            else if (startTime == null || startTime.equals(context.getString(R.string.start_time))) {
                 System.out.println("Start Time Error");
                 entryFormState.setValue(new NewEntryFormState(null, R.string.start_time_not_set, null, null));
             }
-            else if (endDate == null || endDate.equals(dummyFragment.getString(R.string.end_date))) {
+            else if (endDate == null || endDate.equals(context.getString(R.string.end_date))) {
                 System.out.println("End Date Error");
                 entryFormState.setValue(new NewEntryFormState(null, null, R.string.end_date_not_set, null));
             }
-            else if (endTime == null || endTime.equals(dummyFragment.getString(R.string.end_time))) {
+            else if (endTime == null || endTime.equals(context.getString(R.string.end_time))) {
                 System.out.println("End Time Error");
                 entryFormState.setValue(new NewEntryFormState(null, null, null, R.string.end_time_not_set));
             }
