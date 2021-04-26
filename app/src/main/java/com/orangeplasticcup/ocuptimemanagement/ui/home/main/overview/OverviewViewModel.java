@@ -98,7 +98,10 @@ public class OverviewViewModel extends ViewModel {
         StringRequest allUserEntriesRequest = new StringRequest(Request.Method.POST, ALL_ENTRIES_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                if(response.equals("No entries match those conditions.")) return;
+                if(response.equals("No entries match those conditions.")) {
+                    timeEntryData.setValue(new ArrayList<>());
+                    return;
+                }
 
                 try {
                     List<TimeEntry> entries = new ArrayList<>();

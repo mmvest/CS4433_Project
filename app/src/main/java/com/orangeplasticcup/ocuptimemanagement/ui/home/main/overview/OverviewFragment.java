@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ExpandableListView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -16,7 +17,11 @@ import com.orangeplasticcup.ocuptimemanagement.data.TimeEntry;
 import com.orangeplasticcup.ocuptimemanagement.data.model.GraphEntry;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import lecho.lib.hellocharts.model.PieChartData;
 import lecho.lib.hellocharts.model.SliceValue;
@@ -27,7 +32,9 @@ import lecho.lib.hellocharts.view.PieChartView;
  */
 public class OverviewFragment extends Fragment {
 
+    private OverviewFragment instance;
     private OverviewViewModel overviewViewModel;
+    private ExpandableListAdapter listAdapter;
 
     public static OverviewFragment newInstance() {
         OverviewFragment fragment = new OverviewFragment();
@@ -38,6 +45,7 @@ public class OverviewFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(Bundle.EMPTY);
         overviewViewModel = new OverviewViewModel();
+        instance = this;
     }
 
     @Override
@@ -70,7 +78,31 @@ public class OverviewFragment extends Fragment {
         overviewViewModel.getTimeEntryData().observe(getViewLifecycleOwner(), new Observer<List<TimeEntry>>() {
             @Override
             public void onChanged(List<TimeEntry> timeEntries) {
+                if(timeEntries.size() == 0) return;
+                /*
+                Collections.sort(timeEntries);
 
+                List<String> uniqueDays = new ArrayList<>();
+                {
+                    List<String> allDays = new ArrayList<>();
+                    for (TimeEntry entry : timeEntries) {
+                        allDays.add(entry.getStartDate());
+                    }
+
+                    uniqueDays = new ArrayList<>(new HashSet<>(allDays));
+                }*/
+                Map<String, List<TimeEntry>> dayCollection = new HashMap<>();
+
+                for(TimeEntry entry : timeEntries) {
+                    if(dayCollection.get(entry.getStartDate()) == null) {
+                        dayCollection.put(entry.getStartDate(), new ArrayList<>());
+                    }
+                    dayCollection.get(entry.getStartDate()).add(entry);
+                }
+
+                ExpandableListView expandableListView = view.findViewById(R.id.entryExpandableList);
+                listAdapter = new ExpandableListAdapter(instance.getContext(), new ArrayList<>(dayCollection.keySet()), dayCollection);
+                expandableListView.setAdapter(listAdapter);
             }
         });
         overviewViewModel.updateUserEntries(getContext());

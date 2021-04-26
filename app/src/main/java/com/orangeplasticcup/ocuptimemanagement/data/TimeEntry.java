@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 
 import androidx.annotation.NonNull;
 
-public class TimeEntry {
+import java.util.Comparator;
+
+public class TimeEntry implements Comparable<TimeEntry> {
     private final long entryID;
     private String startDate;
     private String startTime;
@@ -48,5 +50,10 @@ public class TimeEntry {
                 endDate,endTime,
                 categoryName,
                 note);
+    }
+
+    @Override
+    public int compareTo(TimeEntry o) {
+        return startDate.compareTo(o.getStartDate());
     }
 }
