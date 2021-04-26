@@ -37,7 +37,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(Bundle.EMPTY); // If the bug returns where Toasts don't show up and the app keeps crashing. Know that this didn't work
         setContentView(R.layout.activity_login);
         loginViewModel = new LoginViewModel();
-
         instance = this;
         NetworkManager.getInstance(this.getApplicationContext());
 

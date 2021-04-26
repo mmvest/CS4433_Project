@@ -55,4 +55,7 @@
     <!-- Strings for settings -->
     <string name="action_reset_password">Reset Password</string>
     <string name="action_delete_user">Delete Account</string>
+    <!-- String for Edit Entry -->
+    <string name="activity_edit_entry">EditEntryActivity</string>
+    <string name="action_edit_entry">Edit Entry</string>
 </resources>
