@@ -27,6 +27,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.data.Result;
+import com.orangeplasticcup.ocuptimemanagement.data.model.EntryCategoryRepository;
 import com.orangeplasticcup.ocuptimemanagement.data.model.LoggedInUser;
 import com.orangeplasticcup.ocuptimemanagement.networking.NetworkManager;
 import com.orangeplasticcup.ocuptimemanagement.ui.home.main.overview.OverviewViewModel;
@@ -48,7 +49,6 @@ public class NewEntryFragment extends Fragment {
     private TextView selectedTextView;
 
     private static NewEntryFragment instance;
-    private static String[] categoryNames = new String[] { "This is a big time error" };
 
     public static NewEntryFragment newInstance() {
         NewEntryFragment fragment = new NewEntryFragment();
@@ -85,7 +85,7 @@ public class NewEntryFragment extends Fragment {
                         categories[i] = categoryName;
                     }
 
-                    categoryNames = categories;
+                    EntryCategoryRepository.bindCategories(categories);
                 }
                 catch(Exception ignored) {}
             }
@@ -176,6 +176,7 @@ public class NewEntryFragment extends Fragment {
         categoryTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final String[] categoryNames = EntryCategoryRepository.getCategories();
                 AlertDialog.Builder builder = new AlertDialog.Builder(instance.getContext());
                 builder.setTitle("Select category");
                 builder.setItems(categoryNames, new DialogInterface.OnClickListener() {

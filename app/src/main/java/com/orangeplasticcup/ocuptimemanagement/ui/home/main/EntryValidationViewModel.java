@@ -1,5 +1,9 @@
 package com.orangeplasticcup.ocuptimemanagement.ui.home.main;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.view.View;
+
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -7,6 +11,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.data.Result;
+import com.orangeplasticcup.ocuptimemanagement.data.model.EntryCategoryRepository;
 import com.orangeplasticcup.ocuptimemanagement.ui.home.main.newEntry.NewEntryFormState;
 
 import java.text.SimpleDateFormat;
