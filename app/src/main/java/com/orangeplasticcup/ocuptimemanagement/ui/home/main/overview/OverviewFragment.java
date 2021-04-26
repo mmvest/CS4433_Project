@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
+import com.orangeplasticcup.ocuptimemanagement.data.TimeEntry;
 import com.orangeplasticcup.ocuptimemanagement.data.model.GraphEntry;
 
 import java.util.ArrayList;
@@ -64,7 +65,14 @@ public class OverviewFragment extends Fragment {
                 pieChartView.setChartRotationEnabled(false);
             }
         });
-
         overviewViewModel.updateOverviewGraph(getContext());
+
+        overviewViewModel.getTimeEntryData().observe(getViewLifecycleOwner(), new Observer<List<TimeEntry>>() {
+            @Override
+            public void onChanged(List<TimeEntry> timeEntries) {
+
+            }
+        });
+        overviewViewModel.updateUserEntries(getContext());
     }
 }

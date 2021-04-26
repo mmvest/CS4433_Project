@@ -30,7 +30,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.home.main.overview.EditEntryActivity"
+            android:name=".ui.home.main.overview.editEntry.EditEntryActivity"
             android:label="@string/activity_edit_entry"
             android:theme="@style/Theme.OCupTimeManagement.NoActionBar"/>
     </application>

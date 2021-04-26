@@ -1,4 +1,4 @@
-package com.orangeplasticcup.ocuptimemanagement.ui.home.main.overview;
+package com.orangeplasticcup.ocuptimemanagement.ui.home.main.overview.editEntry;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -20,6 +20,7 @@ import com.orangeplasticcup.ocuptimemanagement.data.Result;
 import com.orangeplasticcup.ocuptimemanagement.data.TimeEntry;
 import com.orangeplasticcup.ocuptimemanagement.data.model.EntryCategoryRepository;
 import com.orangeplasticcup.ocuptimemanagement.ui.home.main.newEntry.NewEntryFormState;
+import com.orangeplasticcup.ocuptimemanagement.ui.home.main.overview.OverviewViewModel;
 
 import java.util.Calendar;
 import java.util.TimeZone;

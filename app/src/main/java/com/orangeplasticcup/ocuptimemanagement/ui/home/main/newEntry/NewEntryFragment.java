@@ -111,7 +111,6 @@ public class NewEntryFragment extends Fragment {
 
         NetworkManager.getInstance(view.getContext().getApplicationContext()).addToRequestQueue(retrieveCategoriesRequest);
 
-
         TextView noteTextView = view.findViewById(R.id.note);
         TextView categoryTextView = view.findViewById(R.id.category);
         TextView startTimeDate = view.findViewById(R.id.startTimeDate);
@@ -169,6 +168,7 @@ public class NewEntryFragment extends Fragment {
                     Result.Success<String> entrySuccess = (Result.Success<String>) stringResult;
                     Toast.makeText(getContext(), entrySuccess.getData(), Toast.LENGTH_LONG).show();
                     OverviewViewModel.getInstance().updateOverviewGraph(getContext().getApplicationContext());
+                    OverviewViewModel.getInstance().updateUserEntries(getContext().getApplicationContext());
                 }
             }
         });

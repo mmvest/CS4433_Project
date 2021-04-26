@@ -28,7 +28,9 @@ import java.util.Map;
 
 public class OverviewViewModel extends ViewModel {
     private static final String OVERVIEW_URL = "http://66.103.121.23/api/overview.php";
-    private MutableLiveData<List<GraphEntry>> graphData = new MutableLiveData<>();
+    private static final String ALL_ENTRIES_URL = "http://66.103.121.23/api/retrieve_entry.php";
+    private final MutableLiveData<List<GraphEntry>> graphData = new MutableLiveData<>();
+    private final MutableLiveData<List<TimeEntry>> timeEntryData = new MutableLiveData<>();
     private static OverviewViewModel instance;
 
     public OverviewViewModel() {
@@ -40,6 +42,7 @@ public class OverviewViewModel extends ViewModel {
     }
 
     public LiveData<List<GraphEntry>> getGraphData() { return graphData; }
+    public LiveData<List<TimeEntry>> getTimeEntryData() { return timeEntryData; }
 
     public void updateOverviewGraph(Context context) {
         StringRequest overviewPOSTRequest = new StringRequest(Request.Method.POST, OVERVIEW_URL, new Response.Listener<String>() {
@@ -89,5 +92,65 @@ public class OverviewViewModel extends ViewModel {
         ));
 
         NetworkManager.getInstance(context.getApplicationContext()).addToRequestQueue(overviewPOSTRequest);
+    }
+
+    public void updateUserEntries(Context context) {
+        StringRequest allUserEntriesRequest = new StringRequest(Request.Method.POST, ALL_ENTRIES_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                if(response.equals("No entries match those conditions.")) return;
+
+                try {
+                    List<TimeEntry> entries = new ArrayList<>();
+                    JSONObject responseObject = new JSONObject(response);
+                    JSONArray body = responseObject.getJSONArray("body");
+                    int count = responseObject.getInt("entryCount");
+
+                    for(int i = 0; i < count; i++) {
+                        JSONObject entryObject = body.getJSONObject(i);
+                        long entryID = entryObject.getLong("entry_id");
+                        String categoryName = entryObject.getString("category_name");
+                        String[] startTime = entryObject.getString("start_date_time").split(" ");
+                        String[] endTime = entryObject.getString("end_date_time").split(" ");
+                        String note = entryObject.getString("note");
+
+                        entries.add(new TimeEntry(
+                                entryID,
+                                startTime[0],
+                                startTime[1],
+                                endTime[0],
+                                endTime[1],
+                                note,
+                                categoryName
+                        ));
+                    }
+
+                    timeEntryData.setValue(entries);
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("Server Error: " + error);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> headers = new HashMap<>();
+                headers.put("Cookie", LoggedInUser.getInstance().getSessionToken());
+                return headers;
+            }
+        };
+
+        allUserEntriesRequest.setRetryPolicy(new DefaultRetryPolicy(
+                150,
+                5,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
+
+        NetworkManager.getInstance(context.getApplicationContext()).addToRequestQueue(allUserEntriesRequest);
     }
 }

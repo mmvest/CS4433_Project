@@ -1,5 +1,9 @@
 package com.orangeplasticcup.ocuptimemanagement.data;
 
+import android.annotation.SuppressLint;
+
+import androidx.annotation.NonNull;
+
 public class TimeEntry {
     private final long entryID;
     private String startDate;
@@ -9,7 +13,7 @@ public class TimeEntry {
     private String note;
     private String categoryName;
 
-    private TimeEntry(long entryID, String startDate, String startTime, String endDate, String endTime, String note, String username, String categoryName) {
+    public TimeEntry(long entryID, String startDate, String startTime, String endDate, String endTime, String note, String categoryName) {
         this.entryID = entryID;
         this.startDate = startDate;
         this.startTime = startTime;
@@ -32,4 +36,17 @@ public class TimeEntry {
     public void setNote(String note) { this.note = note; }
     public String getCategoryName() { return categoryName; }
     public void setCategoryName(String categoryName) { this.categoryName = categoryName; }
+
+    @SuppressLint("DefaultLocale")
+    @NonNull
+    @Override
+    public String toString() {
+        return String.format("TimeEntry [entryID: %d, startDate: %s, startTime: %s, endDate: %s, endTime: %s, categoryName: %s, note: %s]",
+                entryID,
+                startDate,
+                startTime,
+                endDate,endTime,
+                categoryName,
+                note);
+    }
 }
