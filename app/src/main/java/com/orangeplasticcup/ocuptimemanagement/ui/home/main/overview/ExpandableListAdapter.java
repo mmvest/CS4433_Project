@@ -10,6 +10,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.data.TimeEntry;
 
@@ -88,8 +89,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         TextView categoryTextView = convertView.findViewById(R.id.category);
         TextView startTimeTextView = convertView.findViewById(R.id.startTime);
         TextView endTimeTextView = convertView.findViewById(R.id.endTime);
-        ImageView editButtonTextView = convertView.findViewById(R.id.edit);
-        ImageView deleteButton = convertView.findViewById(R.id.delete);
+        FloatingActionButton editButtonTextView = convertView.findViewById(R.id.edit);
+        FloatingActionButton deleteButton = convertView.findViewById(R.id.delete);
 
         noteTextView.setText("Note: " + childEntry.getNote());
         categoryTextView.setText("Category: " + childEntry.getCategoryName());
