@@ -91,10 +91,10 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         ImageView editButtonTextView = convertView.findViewById(R.id.edit);
         ImageView deleteButton = convertView.findViewById(R.id.delete);
 
-        noteTextView.setText(childEntry.getNote());
-        categoryTextView.setText(childEntry.getCategoryName());
-        startTimeTextView.setText(childEntry.getStartTime());
-        endTimeTextView.setText(childEntry.getEndTime());
+        noteTextView.setText("Note: " + childEntry.getNote());
+        categoryTextView.setText("Category: " + childEntry.getCategoryName());
+        startTimeTextView.setText("Start time: " + childEntry.getStartTime());
+        endTimeTextView.setText("End time: " + childEntry.getEndTime());
 
         editButtonTextView.setOnClickListener(new View.OnClickListener() {
             @Override
