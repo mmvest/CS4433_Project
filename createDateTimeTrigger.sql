@@ -18,7 +18,7 @@ BEGIN
         IF done THEN
             LEAVE read_loop;
         END IF;
-        IF ((NEW.start_date_time < edt) AND (NEW.start_date_time > sdt)) OR ((NEW.end_date_time < edt) AND (NEW.end_date_time > sdt)) OR (NEW.start_date_time = sdt AND NEW.end_date_time = edt) THEN
+        IF ((NEW.start_date_time < edt) AND (NEW.start_date_time > sdt)) OR ((NEW.end_date_time < edt) AND (NEW.end_date_time > sdt)) OR (NEW.start_date_time = sdt OR NEW.end_date_time = edt) THEN
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'You can not insert entries that overlap with start or end times of other entries.';
         END IF;

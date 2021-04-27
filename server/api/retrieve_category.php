@@ -3,7 +3,7 @@
     header("Content-Type: application/json; charset=UTF-8");
 
     include_once '../config/database.php';
-    include_once '../classes/entry.php';
+    include_once '../classes/category.php';
 
     session_start();
     //if the user has not logged in, exit the script. We check if they are logged in by seeing if a session is not set or if 'loggedin' is not set
@@ -16,24 +16,19 @@
     $database = new Database();
     $db = $database->getConnection();
 
-    //Create a new entry object and give it the database info.
-    $categories = new Entry($db);
+    //Create a new category object and give it the database info.
+    $categories = new Category($db);
 
-    //Get data passed to the API
-    $data = json_decode(file_get_contents("php://input"));
-    
-    //Set the username...
-    $categories->username = $_SESSION['user'];
+    //Get all of the entries...
+    $categories = $categories->retrieveCategories();
 
-    //retrieve the overview
-    $categories = $categories->retrieveOverview();
-
+    //store the number of rows produced from the query
     $numOfCategories = $categories->rowCount();
 
-    //if there is atleast one row in the response...
+    //if there is atleast one category...
     if($numOfCategories > 0 )
     {
-        //create an array to store the overview of data for each category
+        //create an array to store the category information
         $categoryArray = array();
         $categoryArray["body"] = array();
         $categoryArray["entryCount"] = $numOfCategories;
@@ -43,19 +38,18 @@
         {
             extract($row);
             $category = array(
-                "category_name" => $category_name,
-                "category_time" => $category_time,
-                "percent_time" => $percent_time
+                "id" => $id,
+                "name" => $name
             );
 
-            //put $category on the top of the array
+            //pcategory on the top of the array
             array_push($categoryArray["body"], $category);
         }
 
         //return the array
         echo json_encode($categoryArray);
     } else {
-        exit("This user has no entries.");
+        exit("Apparently there are no categories! Must be a connection issue. Or maybe someone deleted the table... That wouldn't be good.");
     }
 
-// ?>
+?>

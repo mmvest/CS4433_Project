@@ -21,12 +21,16 @@
 
     //Get data passed to the API
     $data = json_decode(file_get_contents("php://input"));
-    
+    $categories->start_date_time = $data->start_date_time ?? NULL;
+    $categories->end_date_time = $data->end_date_time ?? NULL;
+    $categories->note = $data->note ?? NULL;
+    $categories->category_name = $data->category_name ?? NULL;
+
     //Set the username...
     $categories->username = $_SESSION['user'];
 
     //retrieve the overview
-    $categories = $categories->retrieveOverview();
+    $categories = $categories->retrieveComparison();
 
     $numOfCategories = $categories->rowCount();
 
@@ -45,7 +49,9 @@
             $category = array(
                 "category_name" => $category_name,
                 "category_time" => $category_time,
-                "percent_time" => $percent_time
+                "percent_time" => $percent_time,
+                "global_category_time" => $global_category_time,
+                "global_percent_time" => $global_percent_time
             );
 
             //put $category on the top of the array
@@ -55,7 +61,7 @@
         //return the array
         echo json_encode($categoryArray);
     } else {
-        exit("This user has no entries.");
+        exit("This user has no entries that meet this criteria.");
     }
 
 // ?>
