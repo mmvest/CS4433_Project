@@ -14,7 +14,7 @@ import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.ui.home.main.PageViewModel;
 
 public class CompareFragment extends Fragment {
-    private PageViewModel pageViewModel;
+    private CompareViewModel pageViewModel;
 
     public static CompareFragment newInstance() {
         CompareFragment fragment = new CompareFragment();
@@ -24,7 +24,7 @@ public class CompareFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(Bundle.EMPTY);
-        pageViewModel = new ViewModelProvider(this).get(PageViewModel.class);
+        pageViewModel = new CompareViewModel();
     }
 
     @Override
@@ -34,8 +34,7 @@ public class CompareFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        /*PieChartView pieChartView = getView().findViewById(R.id.chart);
-        pieChartView.setPieChartData(PieChartData.generateDummyData());
-        pieChartView.setChartRotationEnabled(false);*/
+
+        
     }
 }
