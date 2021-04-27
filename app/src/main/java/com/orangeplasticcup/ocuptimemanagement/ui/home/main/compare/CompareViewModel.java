@@ -50,7 +50,12 @@ public class CompareViewModel extends ViewModel {
     public void setShouldUseGlobal(boolean val) { shouldUseGlobal = val; }
     public boolean getShouldUseGlobal() { return shouldUseGlobal; }
 
-    public boolean isDataValid() { return leftCompareFormState.getValue().isDataValid() && rightCompareFromState.getValue().isDataValid(); }
+    public boolean isDataValid() {
+        if(leftCompareFormState.getValue() == null || rightCompareFromState.getValue() == null)
+            return false;
+
+        return leftCompareFormState.getValue().isDataValid() && rightCompareFromState.getValue().isDataValid();
+    }
 
     public void getDefaultData(Context context) {
         StringRequest comparisonPOSTRequest = new StringRequest(Request.Method.POST, COMPARE_URL, new Response.Listener<String>() {
@@ -173,6 +178,10 @@ public class CompareViewModel extends ViewModel {
             }
         }
         catch(Exception e){e.printStackTrace();}
+    }
+
+    private static boolean isEmptyOrNull(String str) {
+        return str == null || str.isEmpty();
     }
 
     public void compare(Context context) {

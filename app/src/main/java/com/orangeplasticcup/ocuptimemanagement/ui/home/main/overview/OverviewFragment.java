@@ -109,7 +109,8 @@ public class OverviewFragment extends Fragment {
                 List<SliceValue> pieData = new ArrayList<>();
 
                 for(GraphEntry entry : graphEntries) {
-                    pieData.add(new SliceValue(entry.getPercentTime(), ((int)(Math.random()*16777215)) | (0xFF << 24)).setLabel(entry.getCategory() + ": " + String.format("%.1f%%", entry.getPercentTime())));
+                    int color = EntryCategoryRepository.getColor(entry.getCategory());
+                    pieData.add(new SliceValue(entry.getPercentTime(), color).setLabel(entry.getCategory() + ": " + String.format("%.1f%%", entry.getPercentTime())));
                 }
 
                 PieChartData pieChartData = new PieChartData(pieData);
@@ -127,18 +128,7 @@ public class OverviewFragment extends Fragment {
             @Override
             public void onChanged(List<TimeEntry> timeEntries) {
                 if(timeEntries.size() == 0) return;
-                /*
-                Collections.sort(timeEntries);
 
-                List<String> uniqueDays = new ArrayList<>();
-                {
-                    List<String> allDays = new ArrayList<>();
-                    for (TimeEntry entry : timeEntries) {
-                        allDays.add(entry.getStartDate());
-                    }
-
-                    uniqueDays = new ArrayList<>(new HashSet<>(allDays));
-                }*/
                 Map<String, List<TimeEntry>> dayCollection = new HashMap<>();
 
                 for(TimeEntry entry : timeEntries) {

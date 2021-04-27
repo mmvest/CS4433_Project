@@ -623,7 +623,8 @@ public class CompareFragment extends Fragment {
     private void setGraphData(PieChartView chart, List<GraphEntry> entryData, String text) {
         List<SliceValue> pieData = new ArrayList<>();
         for(GraphEntry entry : entryData) {
-            pieData.add(new SliceValue(entry.getPercentTime(), ((int)(Math.random()*16777215)) | (0xFF << 24)).setLabel(entry.getCategory() + ": " + String.format("%.1f%%", entry.getPercentTime())));
+            int color = EntryCategoryRepository.getColor(entry.getCategory());
+            pieData.add(new SliceValue(entry.getPercentTime(), color).setLabel(entry.getCategory() + ": " + String.format("%.1f%%", entry.getPercentTime())));
         }
 
         PieChartData pieChartData = new PieChartData(pieData);
