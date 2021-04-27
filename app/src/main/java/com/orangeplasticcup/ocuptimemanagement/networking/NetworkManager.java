@@ -28,8 +28,8 @@ public class NetworkManager {
 
     public <T> void addToRequestQueue(Request<T> request) {
         request.setRetryPolicy(new DefaultRetryPolicy(
-                1000,
-                10,
+                150,
+                30,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
         ));
 

@@ -6,6 +6,8 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,6 +93,23 @@ public class CompareFragment extends Fragment {
         TextView leftEndTime = view.findViewById(R.id.leftEndTime);
         Button leftClearButton = view.findViewById(R.id.clearLeftButton);
 
+        leftNote.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                compareViewModel.updateRightEntryDate(
+                        leftNote.getText().toString(),
+                        leftCategoryVals[0],
+                        leftStartDate.getText().toString(),
+                        leftStartTime.getText().toString(),
+                        leftEndDate.getText().toString(),
+                        leftEndTime.getText().toString());
+            }
+        });
+
         leftClearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,6 +135,23 @@ public class CompareFragment extends Fragment {
         TextView rightEndDate = view.findViewById(R.id.rightEndDate);
         TextView rightEndTime = view.findViewById(R.id.rightEndTime);
         Button rightClearButton = view.findViewById(R.id.clearRightButton);
+
+        rightNote.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+            @Override
+            public void afterTextChanged(Editable s) {
+                compareViewModel.updateRightEntryDate(
+                        leftNote.getText().toString(),
+                        leftCategoryVals[0],
+                        leftStartDate.getText().toString(),
+                        leftStartTime.getText().toString(),
+                        leftEndDate.getText().toString(),
+                        leftEndTime.getText().toString());
+            }
+        });
 
         rightClearButton.setOnClickListener(new View.OnClickListener() {
             @Override

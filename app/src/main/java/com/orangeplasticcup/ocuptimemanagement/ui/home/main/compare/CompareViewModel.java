@@ -103,11 +103,11 @@ public class CompareViewModel extends ViewModel {
         try {
             if(note == null && categories == null && startDate == null && startTime == null && endDate == null && endTime == null) {
                 leftCompareFormState.setValue(new CompareFormState(false));
-                rightCompareFromState.setValue(new CompareFormState(false));
             }
 
             leftNote = note;
             leftCategories = categories;
+            leftCompareFormState.setValue(new CompareFormState(true));
             if (startTime != null && startDate != null && endDate == null && endTime == null) {
                 leftStartDate = startDate + " " + startTime;
                 leftCompareFormState.setValue(new CompareFormState(true));
@@ -140,8 +140,13 @@ public class CompareViewModel extends ViewModel {
 
     public void updateRightEntryDate(String note, String[] categories, String startDate, String startTime, String endDate, String endTime) {
         try {
+            if(note == null && categories == null && startDate == null && startTime == null && endDate == null && endTime == null) {
+                rightCompareFromState.setValue(new CompareFormState(false));
+            }
+
             rightNote = note;
             rightCategories = categories;
+            rightCompareFromState.setValue(new CompareFormState(true));
             if (startTime != null && startDate != null && endDate == null && endTime == null) {
                 rightStartDate = startDate + " " + startTime;
                 rightCompareFromState.setValue(new CompareFormState(true));
@@ -173,6 +178,7 @@ public class CompareViewModel extends ViewModel {
     }
 
     public void compare(Context context) {
+        System.out.println("\n\n\n");
         try {
             JSONObject body = new JSONObject();
             if(leftNote != null && !leftNote.trim().equals(""))
