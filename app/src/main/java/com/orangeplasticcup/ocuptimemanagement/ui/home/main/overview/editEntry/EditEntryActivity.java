@@ -250,21 +250,20 @@ public class EditEntryActivity extends AppCompatActivity {
                 StringRequest updatePOSTRequest = new StringRequest(Request.Method.POST, UPDATE_ENTRY_URL, new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println("Server Response: " + response);
                         if (response.equals("Entry updated.")) {
                             OverviewViewModel.getInstance().updateUserEntries(getApplicationContext());
                             OverviewViewModel.getInstance().updateOverviewGraph(getApplicationContext());
-                            Toast.makeText(getApplicationContext(), "Entry successfully updated", Toast.LENGTH_LONG);
+                            Toast.makeText(getApplicationContext(), "Entry successfully updated", Toast.LENGTH_LONG).show();
                         }
                         else {
-                            Toast.makeText(getApplicationContext(), "Error editing entry. No changes made", Toast.LENGTH_LONG);
+                            Toast.makeText(getApplicationContext(), "Error editing entry. No changes made", Toast.LENGTH_LONG).show();
                         }
                         finish();
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "Server Error", Toast.LENGTH_LONG);
+                        Toast.makeText(getApplicationContext(), "Server Error", Toast.LENGTH_LONG).show();
                         System.out.println("Server Error: " + error);
                         finish();
                     }

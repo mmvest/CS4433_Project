@@ -135,10 +135,55 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 builder.setPositiveButton("Yes",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                List<TimeEntry> child =
-                                        dayCollections.get(days.get(groupPosition));
-                                child.remove(childPosition);
-                                notifyDataSetChanged();
+                                TimeEntry entryToDelete = dayCollections.get(days.get(groupPosition)).get(childPosition);
+
+                                JSONObject body = new JSONObject();
+                                try {
+                                    body.put("entry_id", entryToDelete.getEntryID());
+                                }
+                                catch(Exception ignored){}
+
+                                final String DELETE_ENTRY_URL = "http://66.103.121.23/api/delete_entry.php";
+                                StringRequest deletePOSTRequest = new StringRequest(Request.Method.POST, DELETE_ENTRY_URL, new Response.Listener<String>() {
+                                    @Override
+                                    public void onResponse(String response) {
+                                        if(response.equals("Entry deleted.")) {
+                                            OverviewViewModel.getInstance().updateUserEntries(context.getApplicationContext());
+                                            OverviewViewModel.getInstance().updateOverviewGraph(context.getApplicationContext());
+                                            Toast.makeText(context.getApplicationContext(), "Successfully deleted entry", Toast.LENGTH_LONG).show();
+                                        }
+                                        else {
+                                            System.out.println("Delete Server Response: " + response);
+                                            Toast.makeText(context.getApplicationContext(), "Error deleting entry. No changes made", Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        System.out.println("Server Error: " + error);
+                                        Toast.makeText(context.getApplicationContext(), "Server Error. Please try again", Toast.LENGTH_LONG).show();
+                                    }
+                                }) {
+                                    @Override
+                                    public byte[] getBody() throws AuthFailureError {
+                                        return body.toString().getBytes();
+                                    }
+
+                                    @Override
+                                    public Map<String, String> getHeaders() throws AuthFailureError {
+                                        Map<String,String> headers = new HashMap<>();
+                                        headers.put("Cookie", LoggedInUser.getInstance().getSessionToken());
+                                        return headers;
+                                    }
+                                };
+
+                                deletePOSTRequest.setRetryPolicy(new DefaultRetryPolicy(
+                                        150,
+                                        5,
+                                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                                ));
+
+                                NetworkManager.getInstance(context.getApplicationContext()).addToRequestQueue(deletePOSTRequest);
                             }
                         });
                 builder.setNegativeButton("No",

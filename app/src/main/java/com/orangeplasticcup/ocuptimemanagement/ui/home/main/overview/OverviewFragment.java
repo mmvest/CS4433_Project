@@ -101,7 +101,7 @@ public class OverviewFragment extends Fragment {
                 }
 
                 List<String> days = new ArrayList<>(dayCollection.keySet());
-                Collections.sort(days);
+                Collections.sort(days, Collections.reverseOrder());
 
                 ExpandableListView expandableListView = view.findViewById(R.id.entryExpandableList);
                 listAdapter = new ExpandableListAdapter(instance.getContext(), days, dayCollection);
