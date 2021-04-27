@@ -49,7 +49,6 @@ public class LoginViewModel extends ValidationViewModel {
         StringRequest loginPOSTRequest = new StringRequest(Request.Method.POST, URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                System.out.println("Login Server Response: " + response);
                 if (response.equals("Login successful")) {
                     user.bindUserID(username);
                     loginResult.setValue(new Result.Success<LoggedInUser>(user));

@@ -12,9 +12,20 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.data.TimeEntry;
+import com.orangeplasticcup.ocuptimemanagement.data.model.EntryCategoryRepository;
 import com.orangeplasticcup.ocuptimemanagement.data.model.GraphEntry;
+import com.orangeplasticcup.ocuptimemanagement.data.model.LoggedInUser;
+import com.orangeplasticcup.ocuptimemanagement.networking.NetworkManager;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +42,7 @@ import lecho.lib.hellocharts.view.PieChartView;
  * A placeholder fragment containing a simple view.
  */
 public class OverviewFragment extends Fragment {
+    private static final String RETRIEVE_CATEGORY_URL = "http://66.103.121.23/api/retrieve_category.php";
 
     private OverviewFragment instance;
     private OverviewViewModel overviewViewModel;
@@ -55,6 +67,41 @@ public class OverviewFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        StringRequest retrieveCategoriesRequest = new StringRequest(Request.Method.POST, RETRIEVE_CATEGORY_URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject responseObject = new JSONObject(response);
+                    JSONArray entries = responseObject.getJSONArray("body");
+
+                    int count = responseObject.getInt("entryCount");
+                    String[] categories = new String[count];
+
+                    for(int i = 0; i < count; i++) {
+                        JSONObject entryObject = entries.getJSONObject(i);
+                        String categoryName = entryObject.getString("name");
+                        categories[i] = categoryName;
+                    }
+
+                    EntryCategoryRepository.bindCategories(categories);
+                }
+                catch(Exception ignored) {}
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("Server Response: " + error);
+            }
+        }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String,String> headers = new HashMap<>();
+                headers.put("Cookie", LoggedInUser.getInstance().getSessionToken());
+                return headers;
+            }
+        };
+        NetworkManager.getInstance(view.getContext().getApplicationContext()).addToRequestQueue(retrieveCategoriesRequest);
+
         overviewViewModel.getGraphData().observe(getViewLifecycleOwner(), new Observer<List<GraphEntry>>() {
             @Override
             public void onChanged(List<GraphEntry> graphEntries) {
@@ -62,7 +109,7 @@ public class OverviewFragment extends Fragment {
                 List<SliceValue> pieData = new ArrayList<>();
 
                 for(GraphEntry entry : graphEntries) {
-                    pieData.add(new SliceValue(entry.getPercentTime(), ((int)(Math.random()*16777215)) | (0xFF << 24)).setLabel(entry.getCategory()));
+                    pieData.add(new SliceValue(entry.getPercentTime(), ((int)(Math.random()*16777215)) | (0xFF << 24)).setLabel(entry.getCategory() + ": " + String.format("%.1f%%", entry.getPercentTime())));
                 }
 
                 PieChartData pieChartData = new PieChartData(pieData);
@@ -71,6 +118,7 @@ public class OverviewFragment extends Fragment {
 
                 pieChartView.setPieChartData(pieChartData);
                 pieChartView.setChartRotationEnabled(false);
+                pieChartView.setCircleFillRatio(0.9f);
             }
         });
         overviewViewModel.updateOverviewGraph(getContext());

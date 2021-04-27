@@ -43,8 +43,6 @@ import java.util.Map;
 import java.util.TimeZone;
 
 public class NewEntryFragment extends Fragment {
-    private static final String RETRIEVE_CATEGORY_URL = "http://66.103.121.23/api/retrieve_category.php";
-
     private NewEntryViewModel newEntryViewModel;
     private TextView selectedTextView;
 
@@ -69,41 +67,6 @@ public class NewEntryFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        StringRequest retrieveCategoriesRequest = new StringRequest(Request.Method.POST, RETRIEVE_CATEGORY_URL, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                try {
-                    JSONObject responseObject = new JSONObject(response);
-                    JSONArray entries = responseObject.getJSONArray("body");
-
-                    int count = responseObject.getInt("entryCount");
-                    String[] categories = new String[count];
-
-                    for(int i = 0; i < count; i++) {
-                        JSONObject entryObject = entries.getJSONObject(i);
-                        String categoryName = entryObject.getString("name");
-                        categories[i] = categoryName;
-                    }
-
-                    EntryCategoryRepository.bindCategories(categories);
-                }
-                catch(Exception ignored) {}
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("Server Response: " + error);
-            }
-        }) {
-            @Override
-            public Map<String, String> getHeaders() throws AuthFailureError {
-                Map<String,String> headers = new HashMap<>();
-                headers.put("Cookie", LoggedInUser.getInstance().getSessionToken());
-                return headers;
-            }
-        };
-        NetworkManager.getInstance(view.getContext().getApplicationContext()).addToRequestQueue(retrieveCategoriesRequest);
-
         TextView noteTextView = view.findViewById(R.id.note);
         TextView categoryTextView = view.findViewById(R.id.category);
         TextView startTimeDate = view.findViewById(R.id.startTimeDate);
