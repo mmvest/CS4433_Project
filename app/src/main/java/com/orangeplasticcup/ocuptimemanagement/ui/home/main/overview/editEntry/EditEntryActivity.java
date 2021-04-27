@@ -15,32 +15,47 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.data.Result;
 import com.orangeplasticcup.ocuptimemanagement.data.TimeEntry;
 import com.orangeplasticcup.ocuptimemanagement.data.model.EntryCategoryRepository;
+import com.orangeplasticcup.ocuptimemanagement.data.model.LoggedInUser;
+import com.orangeplasticcup.ocuptimemanagement.networking.NetworkManager;
 import com.orangeplasticcup.ocuptimemanagement.ui.home.main.newEntry.NewEntryFormState;
 import com.orangeplasticcup.ocuptimemanagement.ui.home.main.overview.OverviewViewModel;
 
+import org.json.JSONObject;
+
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TimeZone;
 
 public class EditEntryActivity extends AppCompatActivity {
 
     private static EditEntryActivity instance;
-    private final EditEntryViewModel editEntryViewModel = new EditEntryViewModel();
     private static TimeEntry entryToEdit;
+    //private static boolean wasEntryChanged = false;
+    private final EditEntryViewModel editEntryViewModel = new EditEntryViewModel();
     private TextView selectedTextView;
 
     public static void setEditableEntry(TimeEntry entry) {
         entryToEdit = entry;
     }
+    //public static boolean wasEntryChanged() { return wasEntryChanged; }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(Bundle.EMPTY);
         setContentView(R.layout.fragment_new_entry_screen);
         instance = this;
+        //wasEntryChanged = false;
 
         TextView noteTextView = findViewById(R.id.note);
         TextView categoryTextView = findViewById(R.id.category);
@@ -49,6 +64,7 @@ public class EditEntryActivity extends AppCompatActivity {
         TextView endTimeDate = findViewById(R.id.endTimeDate);
         TextView endTimeTime = findViewById(R.id.endTimeTime);
         Button editEntryButton = findViewById(R.id.createEntryButton);
+        Button editCancelButton = findViewById(R.id.cancelEdit);
 
         noteTextView.setText(entryToEdit.getNote());
         categoryTextView.setText(entryToEdit.getCategoryName());
@@ -57,6 +73,16 @@ public class EditEntryActivity extends AppCompatActivity {
         endTimeDate.setText(entryToEdit.getEndDate());
         endTimeTime.setText(entryToEdit.getEndTime());
         editEntryButton.setText(R.string.action_edit_entry);
+        editEntryButton.setEnabled(true);
+        editCancelButton.setEnabled(true);
+        editCancelButton.setVisibility(View.VISIBLE);
+
+        editCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         editEntryViewModel.getEntryFormState().observe(this, new Observer<NewEntryFormState>() {
             @Override
@@ -210,12 +236,59 @@ public class EditEntryActivity extends AppCompatActivity {
         editEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                entryToEdit.setNote(noteTextView.getText().toString());
-                entryToEdit.setCategoryName(categoryTextView.getText().toString());
-                entryToEdit.setStartDate(startTimeDate.getText().toString());
-                entryToEdit.setStartTime(startTimeTime.getText().toString());
-                entryToEdit.setEndDate(endTimeDate.getText().toString());
-                entryToEdit.setEndTime(endTimeTime.getText().toString());
+                JSONObject body = new JSONObject();
+                try{
+                    body.put("entry_id", entryToEdit.getEntryID());
+                    body.put("category_name", categoryTextView.getText().toString());
+                    body.put("start_date_time", startTimeDate.getText().toString() + " " + startTimeTime.getText().toString());
+                    body.put("end_date_time", endTimeDate.getText().toString() + " " + endTimeTime.getText().toString());
+                    body.put("note", noteTextView.getText().toString());
+                }
+                catch(Exception ignored){}
+                final String UPDATE_ENTRY_URL = "http://66.103.121.23/api/update_entry.php";
+
+                StringRequest updatePOSTRequest = new StringRequest(Request.Method.POST, UPDATE_ENTRY_URL, new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println("Server Response: " + response);
+                        if (response.equals("Entry updated.")) {
+                            OverviewViewModel.getInstance().updateUserEntries(getApplicationContext());
+                            OverviewViewModel.getInstance().updateOverviewGraph(getApplicationContext());
+                            Toast.makeText(getApplicationContext(), "Entry successfully updated", Toast.LENGTH_LONG);
+                        }
+                        else {
+                            Toast.makeText(getApplicationContext(), "Error editing entry. No changes made", Toast.LENGTH_LONG);
+                        }
+                        finish();
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Toast.makeText(getApplicationContext(), "Server Error", Toast.LENGTH_LONG);
+                        System.out.println("Server Error: " + error);
+                        finish();
+                    }
+                }) {
+                    @Override
+                    public byte[] getBody() throws AuthFailureError {
+                        return body.toString().getBytes();
+                    }
+
+                    @Override
+                    public Map<String, String> getHeaders() throws AuthFailureError {
+                        Map<String,String> headers = new HashMap<>();
+                        headers.put("Cookie", LoggedInUser.getInstance().getSessionToken());
+                        return headers;
+                    }
+                };
+
+                updatePOSTRequest.setRetryPolicy(new DefaultRetryPolicy(
+                        150,
+                        5,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+                ));
+
+                NetworkManager.getInstance(getApplicationContext()).addToRequestQueue(updatePOSTRequest);
             }
         });
     }

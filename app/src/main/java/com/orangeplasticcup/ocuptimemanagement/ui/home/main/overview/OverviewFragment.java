@@ -100,8 +100,11 @@ public class OverviewFragment extends Fragment {
                     dayCollection.get(entry.getStartDate()).add(entry);
                 }
 
+                List<String> days = new ArrayList<>(dayCollection.keySet());
+                Collections.sort(days);
+
                 ExpandableListView expandableListView = view.findViewById(R.id.entryExpandableList);
-                listAdapter = new ExpandableListAdapter(instance.getContext(), new ArrayList<>(dayCollection.keySet()), dayCollection);
+                listAdapter = new ExpandableListAdapter(instance.getContext(), days, dayCollection);
                 expandableListView.setAdapter(listAdapter);
             }
         });

@@ -3,19 +3,34 @@ package com.orangeplasticcup.ocuptimemanagement.ui.home.main.overview;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.data.TimeEntry;
+import com.orangeplasticcup.ocuptimemanagement.data.model.LoggedInUser;
+import com.orangeplasticcup.ocuptimemanagement.networking.NetworkManager;
+import com.orangeplasticcup.ocuptimemanagement.ui.home.main.overview.editEntry.EditEntryActivity;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.function.BiConsumer;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
@@ -92,15 +107,23 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         FloatingActionButton editButtonTextView = convertView.findViewById(R.id.edit);
         FloatingActionButton deleteButton = convertView.findViewById(R.id.delete);
 
-        noteTextView.setText("Note: " + childEntry.getNote());
-        categoryTextView.setText("Category: " + childEntry.getCategoryName());
-        startTimeTextView.setText("Start time: " + childEntry.getStartTime());
-        endTimeTextView.setText("End time: " + childEntry.getEndTime());
+        BiConsumer<TimeEntry, Integer> setField = (entry, val) -> {
+            noteTextView.setText("Note: " + childEntry.getNote());
+            categoryTextView.setText("Category: " + childEntry.getCategoryName());
+            startTimeTextView.setText("Start time: " + childEntry.getStartTime());
+            endTimeTextView.setText("End time: " + childEntry.getEndTime());
+        };
 
+        setField.accept(childEntry, null);
+
+        View finalConvertView = convertView;
         editButtonTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                TimeEntry entry = (TimeEntry) getChild(groupPosition, childPosition);
+                EditEntryActivity.setEditableEntry(entry);
+                Intent editActivity = new Intent(finalConvertView.getContext(), EditEntryActivity.class);
+                finalConvertView.getContext().startActivity(editActivity);
             }
         });
 

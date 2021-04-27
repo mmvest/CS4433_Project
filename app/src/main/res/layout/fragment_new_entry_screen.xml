@@ -78,6 +78,14 @@
                 android:gravity="center_horizontal"
                 android:text="@string/create_entry" />
 
+            <Button
+                android:id="@+id/cancelEdit"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:text="@string/action_cancel"
+                android:enabled="false"
+                android:visibility="gone"/>
+
         </LinearLayout>
     </ScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>
