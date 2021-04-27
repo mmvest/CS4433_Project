@@ -102,7 +102,6 @@ public class NewEntryFragment extends Fragment {
                 return headers;
             }
         };
-
         NetworkManager.getInstance(view.getContext().getApplicationContext()).addToRequestQueue(retrieveCategoriesRequest);
 
         TextView noteTextView = view.findViewById(R.id.note);

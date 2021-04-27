@@ -8,13 +8,11 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.orangeplasticcup.ocuptimemanagement.R;
-import com.orangeplasticcup.ocuptimemanagement.ui.home.main.PageViewModel;
 
 public class CompareFragment extends Fragment {
-    private CompareViewModel pageViewModel;
+    private CompareViewModel compareViewModel;
 
     public static CompareFragment newInstance() {
         CompareFragment fragment = new CompareFragment();
@@ -24,7 +22,7 @@ public class CompareFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(Bundle.EMPTY);
-        pageViewModel = new CompareViewModel();
+        compareViewModel = new CompareViewModel();
     }
 
     @Override
@@ -35,6 +33,5 @@ public class CompareFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
 
-        
     }
 }

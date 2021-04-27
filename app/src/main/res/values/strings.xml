@@ -59,4 +59,5 @@
     <string name="activity_edit_entry">EditEntryActivity</string>
     <string name="action_edit_entry">Edit Entry</string>
     <string name="action_cancel">Cancel</string>
+    <string name="category_label">Category</string>
 </resources>
