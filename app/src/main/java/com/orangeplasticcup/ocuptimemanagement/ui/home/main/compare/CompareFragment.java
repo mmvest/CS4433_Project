@@ -84,12 +84,26 @@ public class CompareFragment extends Fragment {
          */
         EditText leftNote = view.findViewById(R.id.leftNote);
         TextView leftCategories = view.findViewById(R.id.leftCategories);
-        final String[][] leftCategoyVals = new String[1][1];
+        final String[][] leftCategoryVals = new String[1][1];
         TextView leftStartDate = view.findViewById(R.id.leftStartDate);
         TextView leftStartTime = view.findViewById(R.id.leftStartTime);
         TextView leftEndDate = view.findViewById(R.id.leftEndDate);
         TextView leftEndTime = view.findViewById(R.id.leftEndTime);
         Button leftClearButton = view.findViewById(R.id.clearLeftButton);
+
+        leftClearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                leftNote.setText("");
+                leftCategories.setText("");
+                leftCategoryVals[0] = null;
+                leftStartDate.setText("");
+                leftStartTime.setText("");
+                leftEndDate.setText("");
+                leftEndTime.setText("");
+                compareViewModel.updateLeftEntryData(null, null, null, null, null, null);
+            }
+        });
 
         /*
             Right
@@ -103,10 +117,31 @@ public class CompareFragment extends Fragment {
         TextView rightEndTime = view.findViewById(R.id.rightEndTime);
         Button rightClearButton = view.findViewById(R.id.clearRightButton);
 
+        rightClearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rightNote.setText("");
+                rightCategories.setText("");
+                rightCategoryVals[0] = null;
+                rightStartDate.setText("");
+                rightStartTime.setText("");
+                rightEndDate.setText("");
+                rightEndTime.setText("");
+                compareViewModel.updateRightEntryDate(null, null, null, null, null, null);
+            }
+        });
+
         /*
             Compare button
          */
         Button compareButton = view.findViewById(R.id.compareButton);
+
+        compareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                compareViewModel.compare(view.getContext());
+            }
+        });
 
         compareViewModel.getLeftCompareFormState().observe(getViewLifecycleOwner(), new Observer<CompareFormState>() {
             @Override
@@ -180,7 +215,7 @@ public class CompareFragment extends Fragment {
                         for(int i = 0; i < list.size(); i++) {
                             vals[i] = list.get(i);
                         }
-                        leftCategoyVals[0] = vals;
+                        leftCategoryVals[0] = vals;
                         compareViewModel.updateLeftEntryData(
                                 leftNote.getText().toString(),
                                 vals,
@@ -281,7 +316,7 @@ public class CompareFragment extends Fragment {
 
                         compareViewModel.updateRightEntryDate(
                                 leftNote.getText().toString(),
-                                leftCategoyVals[0],
+                                leftCategoryVals[0],
                                 leftStartDate.getText().toString(),
                                 leftStartTime.getText().toString(),
                                 leftEndDate.getText().toString(),
@@ -314,7 +349,7 @@ public class CompareFragment extends Fragment {
 
                         compareViewModel.updateRightEntryDate(
                                 leftNote.getText().toString(),
-                                leftCategoyVals[0],
+                                leftCategoryVals[0],
                                 leftStartDate.getText().toString(),
                                 leftStartTime.getText().toString(),
                                 leftEndDate.getText().toString(),
@@ -414,7 +449,7 @@ public class CompareFragment extends Fragment {
 
                         compareViewModel.updateRightEntryDate(
                                 leftNote.getText().toString(),
-                                leftCategoyVals[0],
+                                leftCategoryVals[0],
                                 leftStartDate.getText().toString(),
                                 leftStartTime.getText().toString(),
                                 leftEndDate.getText().toString(),
@@ -425,7 +460,6 @@ public class CompareFragment extends Fragment {
                 timePickerDialog.show();
             }
         });
-
         leftEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -448,7 +482,7 @@ public class CompareFragment extends Fragment {
 
                         compareViewModel.updateRightEntryDate(
                                 leftNote.getText().toString(),
-                                leftCategoyVals[0],
+                                leftCategoryVals[0],
                                 leftStartDate.getText().toString(),
                                 leftStartTime.getText().toString(),
                                 leftEndDate.getText().toString(),
@@ -459,7 +493,6 @@ public class CompareFragment extends Fragment {
                 timePickerDialog.show();
             }
         });
-
         rightStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -493,7 +526,6 @@ public class CompareFragment extends Fragment {
                 timePickerDialog.show();
             }
         });
-
         rightEndTime.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -101,6 +101,11 @@ public class CompareViewModel extends ViewModel {
 
     public void updateLeftEntryData(String note, String[] categories, String startDate, String startTime, String endDate, String endTime) {
         try {
+            if(note == null && categories == null && startDate == null && startTime == null && endDate == null && endTime == null) {
+                leftCompareFormState.setValue(new CompareFormState(false));
+                rightCompareFromState.setValue(new CompareFormState(false));
+            }
+
             leftNote = note;
             leftCategories = categories;
             if (startTime != null && startDate != null && endDate == null && endTime == null) {
