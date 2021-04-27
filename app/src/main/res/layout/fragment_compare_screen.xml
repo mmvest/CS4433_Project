@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <lecho.lib.hellocharts.view.PieChartView
+                android:id="@+id/leftChart"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <lecho.lib.hellocharts.view.PieChartView
+                android:id="@+id/rightChart"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="25dp"
+                android:layout_marginEnd="25dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/leftChart"/>
+            
+            <TextView
+                android:id="@+id/global_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="19dp"
+                android:layout_marginEnd="10dp"
+                android:gravity="center"
+                android:text="Use global data:"
+                app:layout_constraintTop_toBottomOf="@+id/rightChart"
+                app:layout_constraintEnd_toStartOf="@+id/useGlobal"/>
+            
+            <CheckBox
+                android:id="@+id/useGlobal"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="25dp"
+                android:checked="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/rightChart"/>
+
+            <TextView
+                android:id="@+id/note_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/note_text"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/useGlobal"/>
+
+            <EditText
+                android:id="@+id/leftNote"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="12dp"
+                android:hint="@string/note_text"
+                android:inputType="text"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/note_label" />
+
+            <EditText
+                android:id="@+id/rightNote"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:layout_marginEnd="16dp"
+                android:hint="@string/note_text"
+                android:inputType="text"
+                android:enabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/note_label" />
+
+            <TextView
+                android:id="@+id/category_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/category_label"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/leftNote"/>
+
+            <TextView
+                android:id="@+id/leftCategories"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:hint="@string/category_label"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/category_label"/>
+
+            <TextView
+                android:id="@+id/rightCategories"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:hint="@string/category_label"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="12dp"
+                android:enabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/category_label"/>
+
+            <TextView
+                android:id="@+id/startDateLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/start_date"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/leftCategories"/>
+
+            <TextView
+                android:id="@+id/leftStartDate"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:hint="@string/start_date"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/startDateLabel"/>
+
+            <TextView
+                android:id="@+id/rightStartDate"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:hint="@string/start_date"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="12dp"
+                android:enabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/startDateLabel"/>
+
+            <TextView
+                android:id="@+id/startTimeLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/start_time"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/leftStartDate"/>
+
+            <TextView
+                android:id="@+id/leftStartTime"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:hint="@string/start_time"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/startTimeLabel"/>
+
+            <TextView
+                android:id="@+id/rightStartTime"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:hint="@string/start_time"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="12dp"
+                android:enabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/startTimeLabel"/>
+
+            <TextView
+                android:id="@+id/endDateLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/end_date"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/leftStartTime"/>
+
+            <TextView
+                android:id="@+id/leftEndDate"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:hint="@string/end_date"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/endDateLabel"/>
+
+            <TextView
+                android:id="@+id/rightEndDate"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:hint="@string/end_date"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="12dp"
+                android:enabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/endDateLabel"/>
+
+            <TextView
+                android:id="@+id/endTimeLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="@string/end_time"
+                android:gravity="center"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/leftEndDate"/>
+
+            <TextView
+                android:id="@+id/leftEndTime"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:hint="@string/end_time"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/endTimeLabel"/>
+
+            <TextView
+                android:id="@+id/rightEndTime"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:hint="@string/end_time"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="12dp"
+                android:enabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/endTimeLabel"/>
+
+            <Button
+                android:id="@+id/clearLeftButton"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:text="@string/action_clear"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="12dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/leftEndTime" />
+
+            <Button
+                android:id="@+id/clearRightButton"
+                android:layout_width="180sp"
+                android:layout_height="wrap_content"
+                android:text="@string/action_clear"
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="12dp"
+                android:enabled="false"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/leftEndTime" />
+
+            <Button
+                android:id="@+id/compareButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:enabled="false"
+                android:text="@string/action_compare"
+                app:layout_constraintTop_toBottomOf="@+id/clearLeftButton" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
