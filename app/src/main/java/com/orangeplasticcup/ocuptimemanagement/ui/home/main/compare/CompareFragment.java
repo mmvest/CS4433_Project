@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,9 +28,7 @@ import com.orangeplasticcup.ocuptimemanagement.R;
 import com.orangeplasticcup.ocuptimemanagement.data.model.EntryCategoryRepository;
 import com.orangeplasticcup.ocuptimemanagement.data.model.GraphEntry;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.TimeZone;
@@ -62,7 +62,7 @@ public class CompareFragment extends Fragment {
         compareViewModel.getLeftGraphData().observe(getViewLifecycleOwner(), new Observer<List<GraphEntry>>() {
             @Override
             public void onChanged(List<GraphEntry> graphEntries) {
-                if(compareViewModel.isRightGlobal())
+                if(compareViewModel.getShouldUseGlobal())
                     setGraphData(leftChart, graphEntries, "User");
                 else
                     setGraphData(leftChart, graphEntries, "Left");
@@ -73,7 +73,7 @@ public class CompareFragment extends Fragment {
         compareViewModel.getRightGraphData().observe(getViewLifecycleOwner(), new Observer<List<GraphEntry>>() {
             @Override
             public void onChanged(List<GraphEntry> graphEntries) {
-                if(compareViewModel.isRightGlobal())
+                if(compareViewModel.getShouldUseGlobal())
                     setGraphData(rightChart, graphEntries, "Global");
                 else
                     setGraphData(rightChart, graphEntries, "Right");
@@ -109,7 +109,6 @@ public class CompareFragment extends Fragment {
                         leftEndTime.getText().toString());
             }
         });
-
         leftClearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +151,6 @@ public class CompareFragment extends Fragment {
                         leftEndTime.getText().toString());
             }
         });
-
         rightClearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -163,6 +161,32 @@ public class CompareFragment extends Fragment {
                 rightStartTime.setText("");
                 rightEndDate.setText("");
                 rightEndTime.setText("");
+                compareViewModel.updateRightEntryDate(null, null, null, null, null, null);
+            }
+        });
+
+        CheckBox useGlobalBox = view.findViewById(R.id.useGlobal);
+        useGlobalBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                compareViewModel.setShouldUseGlobal(isChecked);
+                if(isChecked) {
+                    rightNote.setEnabled(false);
+                    rightCategories.setEnabled(false);
+                    rightStartDate.setEnabled(false);
+                    rightStartTime.setEnabled(false);
+                    rightEndDate.setEnabled(false);
+                    rightEndTime.setEnabled(false);
+                }
+                else {
+                    rightNote.setEnabled(true);
+                    rightCategories.setEnabled(true);
+                    rightStartDate.setEnabled(true);
+                    rightStartTime.setEnabled(true);
+                    rightEndDate.setEnabled(true);
+                    rightEndTime.setEnabled(true);
+                }
+                rightCategoryVals[0] = null;
                 compareViewModel.updateRightEntryDate(null, null, null, null, null, null);
             }
         });
@@ -184,7 +208,7 @@ public class CompareFragment extends Fragment {
             public void onChanged(CompareFormState compareFormState) {
                 if(compareFormState == null) return;
 
-                compareButton.setEnabled(compareFormState.isDataValid());
+                compareButton.setEnabled(compareViewModel.getShouldUseGlobal()|| compareViewModel.isDataValid());
                 if(compareFormState.getEndTimeDateError() != null) {
                     leftEndDate.setError(getString(compareFormState.getEndTimeDateError()));
                 } else {
@@ -203,7 +227,7 @@ public class CompareFragment extends Fragment {
             public void onChanged(CompareFormState compareFormState) {
                 if(compareFormState == null) return;
 
-                compareButton.setEnabled(compareFormState.isDataValid());
+                compareButton.setEnabled(compareViewModel.isDataValid());
                 if(compareFormState.getEndTimeDateError() != null) {
                     rightEndDate.setError(getString(compareFormState.getEndTimeDateError()));
                 } else {
@@ -230,9 +254,7 @@ public class CompareFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setMultiChoiceItems(categoryNames, boolValues, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-
-                    }
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {}
                 });
 
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
@@ -301,6 +323,7 @@ public class CompareFragment extends Fragment {
                             }
                         }
                         rightCategories.setText(boxValue);
+
                         final String[] vals = new String[list.size()];
                         for(int i = 0; i < list.size(); i++) {
                             vals[i] = list.get(i);
