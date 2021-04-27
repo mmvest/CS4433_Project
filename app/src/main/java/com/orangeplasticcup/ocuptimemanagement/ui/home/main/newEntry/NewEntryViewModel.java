@@ -79,12 +79,6 @@ public class NewEntryViewModel extends EntryValidationViewModel {
             }
         };
 
-        entryPOSTRequest.setRetryPolicy(new DefaultRetryPolicy(
-                150,
-                5,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        ));
-
         NetworkManager.getInstance(context.getApplicationContext()).addToRequestQueue(entryPOSTRequest);
     }
 }

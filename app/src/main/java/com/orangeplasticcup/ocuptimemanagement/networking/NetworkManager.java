@@ -2,6 +2,7 @@ package com.orangeplasticcup.ocuptimemanagement.networking;
 
 import android.content.Context;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
@@ -26,6 +27,12 @@ public class NetworkManager {
     }
 
     public <T> void addToRequestQueue(Request<T> request) {
+        request.setRetryPolicy(new DefaultRetryPolicy(
+                1000,
+                10,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
+        ));
+
         requestQueue.add(request);
     }
 }

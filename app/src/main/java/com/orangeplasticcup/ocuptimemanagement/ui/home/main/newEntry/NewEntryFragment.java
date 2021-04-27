@@ -103,12 +103,6 @@ public class NewEntryFragment extends Fragment {
             }
         };
 
-        retrieveCategoriesRequest.setRetryPolicy(new DefaultRetryPolicy(
-                150,
-                5,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        ));
-
         NetworkManager.getInstance(view.getContext().getApplicationContext()).addToRequestQueue(retrieveCategoriesRequest);
 
         TextView noteTextView = view.findViewById(R.id.note);

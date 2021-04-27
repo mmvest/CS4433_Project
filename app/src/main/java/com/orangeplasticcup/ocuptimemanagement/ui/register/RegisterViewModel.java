@@ -76,14 +76,7 @@ public class RegisterViewModel extends ValidationViewModel {
                 return body.toString().getBytes();
             }
         };
-
-        registerPOSTRequest.setRetryPolicy(new DefaultRetryPolicy(
-                150,
-                5,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        ));
-
-        //requestQueue.add(registerPOSTRequest);
+        
         NetworkManager.getInstance().addToRequestQueue(registerPOSTRequest);
     }
 

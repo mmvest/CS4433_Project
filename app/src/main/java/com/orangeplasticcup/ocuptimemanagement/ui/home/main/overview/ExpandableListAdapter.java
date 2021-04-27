@@ -177,12 +177,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                                     }
                                 };
 
-                                deletePOSTRequest.setRetryPolicy(new DefaultRetryPolicy(
-                                        150,
-                                        5,
-                                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-                                ));
-
                                 NetworkManager.getInstance(context.getApplicationContext()).addToRequestQueue(deletePOSTRequest);
                             }
                         });

@@ -58,12 +58,6 @@ public class HomeScreenActivity extends AppCompatActivity {
                                     public void onErrorResponse(VolleyError error) {}
                                 });
 
-                                logoutPOSTRequest.setRetryPolicy(new DefaultRetryPolicy(
-                                        150,
-                                        5,
-                                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-                                ));
-
                                 NetworkManager.getInstance(getApplicationContext()).addToRequestQueue(logoutPOSTRequest);
                                 finish();
                             }})

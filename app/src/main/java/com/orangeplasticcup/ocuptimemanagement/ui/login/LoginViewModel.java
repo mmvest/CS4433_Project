@@ -78,11 +78,6 @@ public class LoginViewModel extends ValidationViewModel {
             }
         };
 
-        loginPOSTRequest.setRetryPolicy(new DefaultRetryPolicy(
-                150,
-                5,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        ));
         NetworkManager.getInstance().addToRequestQueue(loginPOSTRequest);
     }
 

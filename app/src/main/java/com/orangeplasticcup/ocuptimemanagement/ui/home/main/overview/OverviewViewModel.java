@@ -85,12 +85,6 @@ public class OverviewViewModel extends ViewModel {
             }
         };
 
-        overviewPOSTRequest.setRetryPolicy(new DefaultRetryPolicy(
-                150,
-                5,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        ));
-
         NetworkManager.getInstance(context.getApplicationContext()).addToRequestQueue(overviewPOSTRequest);
     }
 
@@ -147,12 +141,6 @@ public class OverviewViewModel extends ViewModel {
                 return headers;
             }
         };
-
-        allUserEntriesRequest.setRetryPolicy(new DefaultRetryPolicy(
-                150,
-                5,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        ));
 
         NetworkManager.getInstance(context.getApplicationContext()).addToRequestQueue(allUserEntriesRequest);
     }

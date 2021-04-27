@@ -281,12 +281,6 @@ public class EditEntryActivity extends AppCompatActivity {
                     }
                 };
 
-                updatePOSTRequest.setRetryPolicy(new DefaultRetryPolicy(
-                        150,
-                        5,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-                ));
-
                 NetworkManager.getInstance(getApplicationContext()).addToRequestQueue(updatePOSTRequest);
             }
         });
