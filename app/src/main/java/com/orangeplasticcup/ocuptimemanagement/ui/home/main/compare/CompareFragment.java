@@ -177,6 +177,7 @@ public class CompareFragment extends Fragment {
                     rightStartTime.setEnabled(false);
                     rightEndDate.setEnabled(false);
                     rightEndTime.setEnabled(false);
+                    rightClearButton.setEnabled(false);
                 }
                 else {
                     rightNote.setEnabled(true);
@@ -185,6 +186,7 @@ public class CompareFragment extends Fragment {
                     rightStartTime.setEnabled(true);
                     rightEndDate.setEnabled(true);
                     rightEndTime.setEnabled(true);
+                    rightClearButton.setEnabled(true);
                 }
                 rightCategoryVals[0] = null;
                 compareViewModel.updateRightEntryDate(null, null, null, null, null, null);
@@ -361,6 +363,8 @@ public class CompareFragment extends Fragment {
                 DatePickerDialog pickerDialog = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        month += 1;
+
                         String monthString = String.valueOf(month);
                         if(month < 10) {
                             monthString = "0" + month;
@@ -394,6 +398,8 @@ public class CompareFragment extends Fragment {
                 DatePickerDialog pickerDialog = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        month += 1;
+
                         String monthString = String.valueOf(month);
                         if(month < 10) {
                             monthString = "0" + month;
@@ -427,6 +433,8 @@ public class CompareFragment extends Fragment {
                 DatePickerDialog pickerDialog = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        month += 1;
+
                         String monthString = String.valueOf(month);
                         if(month < 10) {
                             monthString = "0" + month;
@@ -460,6 +468,8 @@ public class CompareFragment extends Fragment {
                 DatePickerDialog pickerDialog = new DatePickerDialog(view.getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        month += 1;
+
                         String monthString = String.valueOf(month);
                         if(month < 10) {
                             monthString = "0" + month;

@@ -113,12 +113,12 @@ public class CompareViewModel extends ViewModel {
             leftNote = note;
             leftCategories = categories;
             leftCompareFormState.setValue(new CompareFormState(true));
-            if (!isEmptyOrNull(startTime.trim()) && !isEmptyOrNull(startDate.trim()) && isEmptyOrNull(endDate.trim()) && isEmptyOrNull(endTime.trim())) {
+            if (!isEmptyOrNull(startTime) && !isEmptyOrNull(startDate) && isEmptyOrNull(endDate) && isEmptyOrNull(endTime)) {
                 leftStartDate = startDate + " " + startTime;
                 leftCompareFormState.setValue(new CompareFormState(true));
                 return;
             }
-            if (isEmptyOrNull(startTime.trim()) && isEmptyOrNull(startDate.trim()) && !isEmptyOrNull(endDate.trim()) && !isEmptyOrNull(endTime.trim())) {
+            if (isEmptyOrNull(startTime) && isEmptyOrNull(startDate) && !isEmptyOrNull(endDate) && !isEmptyOrNull(endTime)) {
                 leftEndDate = endDate + " " + endTime;
                 leftCompareFormState.setValue(new CompareFormState(true));
                 return;
@@ -153,13 +153,13 @@ public class CompareViewModel extends ViewModel {
             rightNote = note;
             rightCategories = categories;
             rightCompareFromState.setValue(new CompareFormState(true));
-            if (!isEmptyOrNull(startTime.trim()) && !isEmptyOrNull(startDate.trim()) && isEmptyOrNull(endDate.trim()) && isEmptyOrNull(endTime.trim())) {
+            if (!isEmptyOrNull(startTime) && !isEmptyOrNull(startDate) && isEmptyOrNull(endDate) && isEmptyOrNull(endTime)) {
                 rightStartDate = startDate + " " + startTime;
                 rightCompareFromState.setValue(new CompareFormState(true));
                 return;
             }
 
-            if (isEmptyOrNull(startTime.trim()) && isEmptyOrNull(startDate.trim()) && !isEmptyOrNull(endDate.trim()) && !isEmptyOrNull(endTime.trim())) {
+            if (isEmptyOrNull(startTime) && isEmptyOrNull(startDate) && !isEmptyOrNull(endDate) && !isEmptyOrNull(endTime)) {
                 rightEndDate = endDate + " " + endTime;
                 rightCompareFromState.setValue(new CompareFormState(true));
                 return;

@@ -28,20 +28,20 @@ public class EntryValidationViewModel extends ViewModel {
 
     public void entryDataChanged(Context context, String startDate, String startTime, String endDate, String endTime) {
         try{
-            if(startDate == null || startDate.equals(context.getString(R.string.start_date))) {
-                System.out.println("Start Date Error");
+            if(startDate == null || startDate.equals(context.getString(R.string.start_date)) || startDate.isEmpty()) {
+                //System.out.println("Start Date Error");
                 entryFormState.setValue(new NewEntryFormState(R.string.start_date_not_set, null, null, null));
             }
-            else if (startTime == null || startTime.equals(context.getString(R.string.start_time))) {
-                System.out.println("Start Time Error");
+            else if (startTime == null || startTime.equals(context.getString(R.string.start_time)) || startTime.isEmpty()) {
+                //System.out.println("Start Time Error");
                 entryFormState.setValue(new NewEntryFormState(null, R.string.start_time_not_set, null, null));
             }
-            else if (endDate == null || endDate.equals(context.getString(R.string.end_date))) {
-                System.out.println("End Date Error");
+            else if (endDate == null || endDate.equals(context.getString(R.string.end_date)) || endDate.isEmpty()) {
+                //System.out.println("End Date Error");
                 entryFormState.setValue(new NewEntryFormState(null, null, R.string.end_date_not_set, null));
             }
-            else if (endTime == null || endTime.equals(context.getString(R.string.end_time))) {
-                System.out.println("End Time Error");
+            else if (endTime == null || endTime.equals(context.getString(R.string.end_time)) || endTime.isEmpty()) {
+                //System.out.println("End Time Error");
                 entryFormState.setValue(new NewEntryFormState(null, null, null, R.string.end_time_not_set));
             }
             // Start date is after end date

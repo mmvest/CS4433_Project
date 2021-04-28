@@ -149,6 +149,8 @@ public class NewEntryFragment extends Fragment {
         DatePickerDialog.OnDateSetListener dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month += 1;
+
                 String monthString = String.valueOf(month);
                 if(month < 10) {
                     monthString = "0" + month;
