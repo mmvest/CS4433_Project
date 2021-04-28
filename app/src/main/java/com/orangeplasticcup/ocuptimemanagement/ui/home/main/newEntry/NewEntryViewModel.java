@@ -40,12 +40,9 @@ public class NewEntryViewModel extends EntryValidationViewModel {
             createEntryResult.setValue(new Result.Error(new Exception("")));
         }
 
-        System.out.println(body.toString());
-
         StringRequest entryPOSTRequest = new StringRequest(Request.Method.POST, NEW_ENTRY_URL, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
-                System.out.println("Server response: " + response);
                 switch(response) {
                     case "Entry Created":
                         createEntryResult.setValue(new Result.Success<String>("Successfully created entry named: " + note));

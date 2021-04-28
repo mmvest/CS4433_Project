@@ -33,9 +33,9 @@ import java.util.Map;
 import java.util.function.BiConsumer;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
-    private Context context;
-    private List<String> days;
-    private Map<String, List<TimeEntry>> dayCollections;
+    private final Context context;
+    private final List<String> days;
+    private final Map<String, List<TimeEntry>> dayCollections;
 
     public ExpandableListAdapter(Context context, List<String> days, Map<String, List<TimeEntry>> dayCollections) {
         this.context = context;

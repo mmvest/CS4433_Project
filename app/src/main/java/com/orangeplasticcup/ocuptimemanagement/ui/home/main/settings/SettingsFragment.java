@@ -40,7 +40,7 @@ import java.util.Map;
 public class SettingsFragment extends Fragment {
     private static final String RESET_PASSWORD_URL = "http://66.103.121.23/api/update_password.php";
     private static final String DELETE_USER_URL = "http://66.103.121.23/api/delete_user.php";
-
+    private SettingsFragment instance;
 
     public static SettingsFragment newInstance() {
         return new SettingsFragment();
@@ -58,6 +58,7 @@ public class SettingsFragment extends Fragment {
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        instance = this;
         Button resetPasswordButton = view.findViewById(R.id.resetPassword);
         Button deleteAccountButton = view.findViewById(R.id.deleteAccount);
 
@@ -143,6 +144,7 @@ public class SettingsFragment extends Fragment {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("Delete account");
                 EditText passwordConfirm = new EditText(getContext());
+                passwordConfirm.setHint("Confirm password");
                 passwordConfirm.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
                 builder.setView(passwordConfirm);
 
@@ -168,13 +170,11 @@ public class SettingsFragment extends Fragment {
                             @Override
                             public void onResponse(String response) {
                                 System.out.println("Server Response" + response);
-                                switch(response) {
-                                    case "User deleted. Logout Successful.":
-                                        Toast.makeText(view.getContext(), "User deleted. Logout Successful.", Toast.LENGTH_LONG).show();
-                                        HomeScreenActivity.finishActivity();
-                                        break;
-                                    default:
-                                        Toast.makeText(view.getContext(), "Unknown error:", Toast.LENGTH_LONG).show();
+                                if ("User deleted. Logout Successful.".equals(response)) {
+                                    Toast.makeText(view.getContext(), "User deleted. Logout Successful.", Toast.LENGTH_LONG).show();
+                                    instance.getActivity().finish();
+                                } else {
+                                    Toast.makeText(view.getContext(), "Failed to delete account. Double check your password", Toast.LENGTH_LONG).show();
                                 }
                             }
                         }, new Response.ErrorListener() {

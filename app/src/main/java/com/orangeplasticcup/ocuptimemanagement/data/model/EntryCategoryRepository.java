@@ -5,7 +5,7 @@ import android.graphics.Color;
 import java.util.HashMap;
 
 public class EntryCategoryRepository {
-    private static HashMap<String, Integer> colorMap = new HashMap<>();
+    private static final HashMap<String, Integer> colorMap = new HashMap<>();
     private static String[] categoryEntries = null;
 
     public static void bindCategories(String[] categories) throws Exception{
