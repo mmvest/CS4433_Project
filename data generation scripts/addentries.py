@@ -35,44 +35,30 @@ categories = [name[0] for name in result]
 for category in categories:
     category = category.strip()
 
-#define note since it will be the same for all...
+#define notes here if needed
 note = ""
 
 #define a start and end date
-startDate = datetime.datetime(2021, 4, 1)
-endDate = datetime.datetime.today() - datetime.timedelta(days=1) #create entries up to yesterday
-totalDays = (endDate - startDate).days #total number of days between start and end
-print("Total Days Since Start of March: %d" % totalDays)
+startDate = datetime.datetime(2021, 1, 1)
+endDate = datetime.datetime(2021, 4, 30)
 
-#Create a schedule
-#thingsToDo = ['With Friends', 'Workout', 'Recreation', 'Service', 'Watching TV', 'Streaming (Netflix, Hulu, YouTube, etc...)', 'Practice (Sports, Music, Etc...)', 'Hobby', 'Studying', 'School', 'Homework', 'Traveling']
-schedule = [5, 0.5, 0.5, 4, 1, 4, 2, 2, 2, 3] #hours
-print("There are %d users that each have %d timeslots per day. Since there are %d days to schedule, that makes a total of %d entries per user and %d entries over all." % (len(usernames), len(schedule), totalDays, (totalDays * len(schedule)), (totalDays * len(schedule) * len(usernames))))
-
-#Now for each username, generate 100 entries
+#Now for each username, generate entries
 for username in usernames:
-    i = 0
-    
     start_date_time = startDate;
-    while i < totalDays:
+    while start_date_time< endDate:
 
-        #keep track of the number of hours
-        for timeSlot in schedule:
-            category_name = ''
-            if timeSlot == 5:
-                category_name = 'Sleeping'
-            else:
-                #select a random category
-                category_name = random.choice(categories)
-            
-            end_date_time = start_date_time + datetime.timedelta(hours=timeSlot)
+        #generate random hours
+        hourRange = random.randrange(1,9) + 1 #random hours from 1 to 8
+        minuteRange = random.randrange(1,60) #random minutes from 1 to 59
+        #select a random category
+        category_name = random.choice(categories)
+        
+        end_date_time = start_date_time + datetime.timedelta(hours=hourRange, minutes=minuteRange)
 
-            #insert into database
-            query = "INSERT INTO entry (start_date_time, end_date_time, note, username, category_name) VALUES (%s, %s, %s, %s, %s)"
-            values = (start_date_time, end_date_time, note, username, category_name)
-            mycursor.execute(query, values)
+        #insert into database
+        query = "INSERT INTO entry (start_date_time, end_date_time, note, username, category_name) VALUES (%s, %s, %s, %s, %s)"
+        values = (start_date_time, end_date_time, note, username, category_name)
+        mycursor.execute(query, values)
 
-            mydb.commit()
-            start_date_time = end_date_time
-
-        i += 1
+        mydb.commit()
+        start_date_time = end_date_time
